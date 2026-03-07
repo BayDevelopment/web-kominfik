@@ -11,7 +11,7 @@
                 </h1>
 
                 <p class="hero-desc">
-                    {{ $hero_section->sub_titl ?? 'No Subtitle' }}
+                    {{ $hero_section->sub_title ?? 'No Subtitle' }}
                 </p>
 
                 <div class="hero-buttons">

@@ -7,7 +7,7 @@
         </div>
 
         <div class="footer-right">
-            Collaborative Developer
+            Universitas Al-Khairiyah
         </div>
     </div>
 </footer>
