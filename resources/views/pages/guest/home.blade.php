@@ -7,14 +7,11 @@
                 </div>
 
                 <h1 class="hero-title">
-                    Wadah Berkembang dan Berkarya untuk
-                    <span>Mahasiswa Informatika</span>
+                    {{ $hero_section->title }}
                 </h1>
 
                 <p class="hero-desc">
-                    KOMINFIK adalah Komunitas Mahasiswa Informatika Fakultas Ilmu Komputer
-                    yang menjadi ruang kolaborasi, pengembangan skill, kepemimpinan, serta
-                    inovasi digital untuk generasi mahasiswa yang adaptif dan visioner.
+                    {{ $hero_section->sub_title }}
                 </p>
 
                 <div class="hero-buttons">
@@ -24,15 +21,15 @@
 
                 <div class="hero-stats">
                     <div class="stat-card">
-                        <h3>150+</h3>
+                        <h3>{{ $members_count }}+</h3>
                         <p>Mahasiswa aktif dan kolaboratif</p>
                     </div>
                     <div class="stat-card">
-                        <h3>12+</h3>
+                        <h3>{{ $hero_section->total_activity }}+</h3>
                         <p>Program kerja dan kegiatan rutin</p>
                     </div>
                     <div class="stat-card">
-                        <h3>25+</h3>
+                        <h3>{{ $hero_section->total_event }}+</h3>
                         <p>Project, seminar, dan workshop</p>
                     </div>
                 </div>
@@ -68,8 +65,7 @@
                         <div class="mini-box">
                             <h4>Visi KOMINFIK</h4>
                             <p>
-                                Menjadi komunitas mahasiswa informatika yang inspiratif, unggul,
-                                dan berdampak bagi lingkungan akademik maupun masyarakat digital.
+                                {{ $hero_section->vision }}
                             </p>
                         </div>
                     </div>
@@ -195,247 +191,27 @@
 
                 <div class="member-scroll-box">
                     <div class="member-scroll">
-
-                        <a href="{{ route('member.detail', 'ahmad-rizky') }}" class="member-card">
-                            <div class="avatar">AR</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Ahmad Rizky</h4>
-                                    <span class="member-badge">Inti</span>
+                        @foreach ($members as $member)
+                            @php
+                                $initials = implode('', array_map(fn ($w) => strtoupper($w[0]), explode(' ', $member->name)));
+                            @endphp
+                            <a href="{{ route('member.detail', ['id' => $member->id]) }}" class="member-card">
+                                <div class="avatar">{{ $initials }}</div>
+                                <div class="member-body">
+                                    <div class="member-top">
+                                        <h4>{{ $member->name }}</h4>
+                                    </div>
+                                    <p>
+                                        {{ $member->position->jobdesc }}
+                                    </p>
+                                    <div class="member-meta">
+                                        <span>{{ $member->position->name }}</span>
+                                        <span>Divisi {{ $member->team->name }}</span>
+                                        <span>Angkatan {{ $member->intake_year }}</span>
+                                    </div>
                                 </div>
-                                <span class="member-role">Ketua Umum</span>
-                                <p>
-                                    Memimpin arah komunitas, merancang strategi organisasi, serta
-                                    mengoordinasikan seluruh program kerja utama KOMINFIK secara menyeluruh.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Divisi Inti</span>
-                                    <span>Angkatan 2022</span>
-                                    <span>Leadership</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'nadia-safitri') }}" class="member-card">
-                            <div class="avatar">NS</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Nadia Safitri</h4>
-                                    <span class="member-badge">Inti</span>
-                                </div>
-                                <span class="member-role">Wakil Ketua</span>
-                                <p>
-                                    Mendukung ketua dalam pelaksanaan program, memastikan koordinasi antar divisi,
-                                    dan menjaga ritme kerja organisasi tetap efektif.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Divisi Inti</span>
-                                    <span>Angkatan 2022</span>
-                                    <span>Manajemen Tim</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'fajar-ananta') }}" class="member-card">
-                            <div class="avatar">FA</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Fajar Ananta</h4>
-                                    <span class="member-badge">Inti</span>
-                                </div>
-                                <span class="member-role">Sekretaris</span>
-                                <p>
-                                    Mengelola administrasi, menyusun dokumentasi kegiatan, membuat notulensi rapat,
-                                    dan memastikan arsip organisasi tersimpan dengan baik.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Administrasi</span>
-                                    <span>Angkatan 2023</span>
-                                    <span>Dokumentasi</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'dinda-lestari') }}" class="member-card">
-                            <div class="avatar">DL</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Dinda Lestari</h4>
-                                    <span class="member-badge">Inti</span>
-                                </div>
-                                <span class="member-role">Bendahara</span>
-                                <p>
-                                    Bertanggung jawab atas pengelolaan keuangan organisasi, penyusunan laporan,
-                                    serta memastikan transparansi dan efisiensi penggunaan anggaran.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Keuangan</span>
-                                    <span>Angkatan 2023</span>
-                                    <span>Administrasi</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'raka-pratama') }}" class="member-card">
-                            <div class="avatar">RP</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Raka Pratama</h4>
-                                    <span class="member-badge">Koordinator</span>
-                                </div>
-                                <span class="member-role">Koordinator Akademik</span>
-                                <p>
-                                    Menginisiasi kelas belajar, mentoring, diskusi teknis, dan kegiatan akademik
-                                    yang mendukung peningkatan kompetensi mahasiswa informatika.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Akademik</span>
-                                    <span>Angkatan 2022</span>
-                                    <span>Mentoring</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'intan-maharani') }}" class="member-card">
-                            <div class="avatar">IM</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Intan Maharani</h4>
-                                    <span class="member-badge">Koordinator</span>
-                                </div>
-                                <span class="member-role">Koordinator Media</span>
-                                <p>
-                                    Mengelola identitas digital komunitas, publikasi media sosial,
-                                    dokumentasi konten, dan strategi komunikasi visual KOMINFIK.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Media</span>
-                                    <span>Angkatan 2023</span>
-                                    <span>Branding</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'bayu-prasetyo') }}" class="member-card">
-                            <div class="avatar">BY</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Bayu Prasetyo</h4>
-                                    <span class="member-badge">Koordinator</span>
-                                </div>
-                                <span class="member-role">Koordinator Event</span>
-                                <p>
-                                    Menyusun konsep kegiatan, mengatur timeline acara, dan memastikan seminar,
-                                    workshop, maupun event berjalan dengan baik dan terstruktur.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Event Organizer</span>
-                                    <span>Angkatan 2022</span>
-                                    <span>Public Speaking</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'salsa-amelia') }}" class="member-card">
-                            <div class="avatar">SA</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Salsa Amelia</h4>
-                                    <span class="member-badge">Divisi</span>
-                                </div>
-                                <span class="member-role">UI/UX Division</span>
-                                <p>
-                                    Fokus pada desain antarmuka, pengalaman pengguna, dan pengembangan tampilan
-                                    visual yang modern untuk kebutuhan project komunitas.
-                                </p>
-                                <div class="member-meta">
-                                    <span>UI/UX</span>
-                                    <span>Angkatan 2024</span>
-                                    <span>Product Design</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'muhammad-fikri') }}" class="member-card">
-                            <div class="avatar">MF</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Muhammad Fikri</h4>
-                                    <span class="member-badge">Divisi</span>
-                                </div>
-                                <span class="member-role">Web Developer</span>
-                                <p>
-                                    Mengembangkan website, fitur internal, dan sistem digital untuk mendukung
-                                    kebutuhan organisasi serta pengembangan project komunitas.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Development</span>
-                                    <span>Angkatan 2023</span>
-                                    <span>Laravel</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'laila-azzahra') }}" class="member-card">
-                            <div class="avatar">LA</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Laila Azzahra</h4>
-                                    <span class="member-badge">Divisi</span>
-                                </div>
-                                <span class="member-role">Public Relation</span>
-                                <p>
-                                    Membangun relasi eksternal, menjalin komunikasi dengan pihak kampus maupun mitra,
-                                    dan memperkuat citra positif organisasi di publik.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Humas</span>
-                                    <span>Angkatan 2024</span>
-                                    <span>Communication</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'dio-valencia') }}" class="member-card">
-                            <div class="avatar">DV</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Dio Valencia</h4>
-                                    <span class="member-badge">Divisi</span>
-                                </div>
-                                <span class="member-role">Creative Team</span>
-                                <p>
-                                    Menciptakan materi visual, konten promosi, desain publikasi, dan kebutuhan
-                                    kreatif untuk mendukung kegiatan serta branding KOMINFIK.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Creative</span>
-                                    <span>Angkatan 2023</span>
-                                    <span>Graphic Design</span>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="{{ route('member.detail', 'citra-ramadhani') }}" class="member-card">
-                            <div class="avatar">CR</div>
-                            <div class="member-body">
-                                <div class="member-top">
-                                    <h4>Citra Ramadhani</h4>
-                                    <span class="member-badge">Aktif</span>
-                                </div>
-                                <span class="member-role">Member Active</span>
-                                <p>
-                                    Aktif berpartisipasi dalam kegiatan komunitas, project internal, dan program
-                                    pengembangan kompetensi untuk mendukung pertumbuhan organisasi.
-                                </p>
-                                <div class="member-meta">
-                                    <span>Member</span>
-                                    <span>Angkatan 2024</span>
-                                    <span>Tech Enthusiast</span>
-                                </div>
-                            </div>
-                        </a>
-
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -452,7 +228,7 @@
                 </p>
                 <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
                     <a href="#" class="btn btn-primary">Daftar Sekarang</a>
-                    <a href="#" class="btn btn-outline">Hubungi Pengurus</a>
+                    <a href="https://wa.me/628989649370" target="_blank" class=" btn btn-outline">Hubungi Pengurus</a>
                 </div>
             </div>
         </div>
