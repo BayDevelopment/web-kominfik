@@ -33,29 +33,29 @@
     </div>
 </nav>
 
-@push('scripts')
+<x-slot:scripts>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const navToggle = document.getElementById('navToggle');
             const navMenuWrap = document.getElementById('navMenuWrap');
             const navbar = document.getElementById('navbar');
             const navLinks = document.querySelectorAll('.nav-link');
 
             if (navToggle && navMenuWrap) {
-                navToggle.addEventListener('click', function() {
+                navToggle.addEventListener('click', function () {
                     navToggle.classList.toggle('active');
                     navMenuWrap.classList.toggle('active');
                 });
             }
 
             navLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function () {
                     navToggle.classList.remove('active');
                     navMenuWrap.classList.remove('active');
                 });
             });
 
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 if (window.scrollY > 20) {
                     navbar.classList.add('scrolled');
                 } else {
@@ -64,4 +64,4 @@
             });
         });
     </script>
-@endpush
+    <x-slot:scripts>

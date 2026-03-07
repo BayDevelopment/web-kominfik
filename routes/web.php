@@ -4,4 +4,4 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/anggota/{slug}', [HomeController::class, 'memberDetail'])->name('member.detail');
+Route::get('/members/{slug}', [HomeController::class, 'memberDetail'])->name('member.detail');

@@ -12,7 +12,7 @@
     </div>
 </footer>
 
-@push('styles')
+<x-slot:styles>
     <style>
         .footer-note {
             padding: 24px 0 36px;
@@ -68,4 +68,4 @@
             }
         }
     </style>
-@endpush
+    <x-slot:styles>

@@ -1,6 +1,4 @@
-@extends('layouts.guest')
-
-@section('content')
+<x-layouts.guest.app>
     <section class="hero" id="beranda">
         <div class="container hero-grid">
             <div>
@@ -460,40 +458,40 @@
         </div>
     </section>
 
+    <x-slot:scripts>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const scrollBox = document.querySelector('.member-scroll');
 
+                if (scrollBox) {
+                    let direction = 1;
+                    let speed = 1;
+                    let pause = false;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const scrollBox = document.querySelector('.member-scroll');
+                    scrollBox.addEventListener('mouseenter', () => pause = true);
+                    scrollBox.addEventListener('mouseleave', () => pause = false);
 
-            if (scrollBox) {
-                let direction = 1;
-                let speed = 1;
-                let pause = false;
+                    function autoScroll() {
+                        if (!pause) {
+                            scrollBox.scrollTop += speed * direction;
 
-                scrollBox.addEventListener('mouseenter', () => pause = true);
-                scrollBox.addEventListener('mouseleave', () => pause = false);
+                            const maxScroll = scrollBox.scrollHeight - scrollBox.clientHeight;
 
-                function autoScroll() {
-                    if (!pause) {
-                        scrollBox.scrollTop += speed * direction;
+                            if (scrollBox.scrollTop >= maxScroll) {
+                                direction = -1;
+                            }
 
-                        const maxScroll = scrollBox.scrollHeight - scrollBox.clientHeight;
-
-                        if (scrollBox.scrollTop >= maxScroll) {
-                            direction = -1;
+                            if (scrollBox.scrollTop <= 0) {
+                                direction = 1;
+                            }
                         }
 
-                        if (scrollBox.scrollTop <= 0) {
-                            direction = 1;
-                        }
+                        requestAnimationFrame(autoScroll);
                     }
 
-                    requestAnimationFrame(autoScroll);
+                    autoScroll();
                 }
-
-                autoScroll();
-            }
-        });
-    </script>
-@endsection
+            });
+        </script>
+    </x-slot:scripts>
+</x-layouts.guest.app>

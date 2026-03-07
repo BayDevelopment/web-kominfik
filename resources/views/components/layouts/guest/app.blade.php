@@ -6,18 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'KOMINFIK | Komunitas Mahasiswa Informatika Fakultas Ilmu Komputer' }}</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @stack('styles')
+    {{ $styles ?? '' }}
 </head>
 
 <body>
-    @include('partials.guest.navbar')
+    <x-guest.navbar />
 
     <main>
-        @yield('content')
+        {{$slot}}
     </main>
 
-    @include('partials.guest.footer')
-    @stack('scripts')
+    <x-guest.footer />
+
+    {{ $scripts ?? '' }}
 </body>
 
 </html>

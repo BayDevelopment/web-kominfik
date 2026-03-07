@@ -11,9 +11,8 @@ class HomeController extends Controller
         $data = [
             'title' => 'KOMINFIK | Komunitas Mahasiswa Informatika Fakultas Ilmu Komputer'
         ];
-        return view('guest.home', $data);
+        return view('pages.guest.home', $data);
     }
-
 
     protected array $members = [
         [
@@ -156,6 +155,6 @@ class HomeController extends Controller
 
         abort_if(!$member, 404);
 
-        return view('guest.member-detail', compact('member'));
+        return view('pages.guest.member-detail', compact('member'));
     }
 }
