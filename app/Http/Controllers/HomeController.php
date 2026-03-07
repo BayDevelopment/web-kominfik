@@ -11,7 +11,7 @@ class HomeController extends Controller
     {
         $hero_section = HeroSection::orderByDesc('id')->first();
         $members_count = Member::where('is_active', true)->count();
-        $members = Member::orderByDesc('id')->limit(5)->get();
+        $members = Member::where('is_active', true)->orderByDesc('id')->limit(5)->get();
 
         return view('pages.guest.home', compact('hero_section', 'members_count', 'members'));
     }

@@ -16,12 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('intake_year');
             $table->unsignedBigInteger('team_id');
-            $table->unsignedBigInteger('position_id');
             $table->boolean('is_active');
             $table->timestamps();
 
             $table->foreign('team_id')->references('id')->on('teams');
-            $table->foreign('position_id')->references('id')->on('positions');
         });
     }
 

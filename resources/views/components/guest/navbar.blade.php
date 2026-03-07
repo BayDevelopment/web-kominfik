@@ -2,7 +2,7 @@
     <div class="container navbar-inner">
         <a href="{{ route('home') }}" class="brand">
             <div class="brand-logo">
-                <span>K</span>
+                <span></span>
             </div>
 
             <div class="brand-text">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="nav-cta">
-                <a href="#kontak" class="nav-btn">Gabung Sekarang</a>
+                <a href="{{ route('member.registration') }}" class="nav-btn">Gabung Sekarang</a>
             </div>
         </div>
     </div>
@@ -64,4 +64,4 @@
             });
         });
     </script>
-    <x-slot:scripts>
+</x-slot:scripts>

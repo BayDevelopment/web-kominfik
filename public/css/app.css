@@ -96,35 +96,23 @@ a {
 }
 
 .brand-logo {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    box-shadow: 0 12px 28px rgba(79, 140, 255, 0.35);
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
-}
-
-.brand-logo::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.35),
-        rgba(255, 255, 255, 0.05)
-    );
-}
-
-.brand-logo span {
-    position: relative;
-    z-index: 1;
-    color: #fff;
-    font-size: 1.2rem;
-    font-weight: 900;
-    letter-spacing: 1px;
+    transition: 0.3s ease;
+    background-image: url('../assets/favicon.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+    padding: 6px;
 }
 
 .brand-text {
@@ -348,6 +336,7 @@ a {
 .hero-title span {
     background: linear-gradient(135deg, #ffffff, #9ec3ff, #67e4d0);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 

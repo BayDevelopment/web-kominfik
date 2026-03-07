@@ -20,10 +20,7 @@ class MembersTable
                     ->searchable(),
                 TextColumn::make('intake_year')
                     ->searchable(),
-                TextColumn::make('team_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('position_id')
+                TextColumn::make('team.name')
                     ->numeric()
                     ->sortable(),
                 IconColumn::make('is_active')

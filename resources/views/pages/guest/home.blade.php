@@ -1,4 +1,4 @@
-<x-layouts.guest.app>
+<x-layouts.guest>
     <section class="hero" id="beranda">
         <div class="container hero-grid">
             <div>
@@ -7,11 +7,11 @@
                 </div>
 
                 <h1 class="hero-title">
-                    {{ $hero_section->title }}
+                    {{ $hero_section->title ?? 'No Title' }}
                 </h1>
 
                 <p class="hero-desc">
-                    {{ $hero_section->sub_title }}
+                    {{ $hero_section->sub_titl ?? 'No Subtitle' }}
                 </p>
 
                 <div class="hero-buttons">
@@ -25,11 +25,11 @@
                         <p>Mahasiswa aktif dan kolaboratif</p>
                     </div>
                     <div class="stat-card">
-                        <h3>{{ $hero_section->total_activity }}+</h3>
+                        <h3>{{ $hero_section->total_activity ?? 0 }}+</h3>
                         <p>Program kerja dan kegiatan rutin</p>
                     </div>
                     <div class="stat-card">
-                        <h3>{{ $hero_section->total_event }}+</h3>
+                        <h3>{{ $hero_section->total_event ?? 0 }}+</h3>
                         <p>Project, seminar, dan workshop</p>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                         <div class="mini-box">
                             <h4>Visi KOMINFIK</h4>
                             <p>
-                                {{ $hero_section->vision }}
+                                {{ $hero_section->vision ?? 'No Vision' }}
                             </p>
                         </div>
                     </div>
@@ -176,16 +176,14 @@
                         Jadilah bagian dari komunitas mahasiswa informatika yang aktif membangun
                         relasi, meningkatkan kemampuan, dan menciptakan kontribusi nyata.
                     </p>
-
                     <div class="member-points">
                         <div>✅ Lingkungan belajar yang suportif dan kolaboratif</div>
                         <div>✅ Program kerja dan kelas pengembangan skill</div>
                         <div>✅ Relasi antar mahasiswa dan pengalaman organisasi</div>
                         <div>✅ Kesempatan membangun portofolio dan leadership</div>
                     </div>
-
                     <div style="margin-top: 24px;">
-                        <a href="#kontak" class="btn btn-primary">Daftar Menjadi Anggota</a>
+                        <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Menjadi Anggota</a>
                     </div>
                 </div>
 
@@ -202,10 +200,9 @@
                                         <h4>{{ $member->name }}</h4>
                                     </div>
                                     <p>
-                                        {{ $member->position->jobdesc }}
+                                        {{ $member->team->jobdesc }}
                                     </p>
                                     <div class="member-meta">
-                                        <span>{{ $member->position->name }}</span>
                                         <span>Divisi {{ $member->team->name }}</span>
                                         <span>Angkatan {{ $member->intake_year }}</span>
                                     </div>
@@ -227,7 +224,7 @@
                     pada pengembangan potensi mahasiswa informatika Fakultas Ilmu Komputer.
                 </p>
                 <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-                    <a href="#" class="btn btn-primary">Daftar Sekarang</a>
+                    <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Sekarang</a>
                     <a href="https://wa.me/628989649370" target="_blank" class=" btn btn-outline">Hubungi Pengurus</a>
                 </div>
             </div>
@@ -270,4 +267,4 @@
             });
         </script>
     </x-slot:scripts>
-</x-layouts.guest.app>
+    </x-layouts.guest.app>

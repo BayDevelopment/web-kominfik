@@ -14,10 +14,7 @@ class MemberInfolist
             ->components([
                 TextEntry::make('name'),
                 TextEntry::make('intake_year'),
-                TextEntry::make('team_id')
-                    ->numeric(),
-                TextEntry::make('position_id')
-                    ->numeric(),
+                TextEntry::make('team.name'),
                 IconEntry::make('is_active')
                     ->boolean(),
                 TextEntry::make('created_at')

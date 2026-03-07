@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Members\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -18,12 +19,9 @@ class MemberForm
                         ->required(),
                     TextInput::make('intake_year')
                         ->required(),
-                    TextInput::make('team_id')
-                        ->required()
-                        ->numeric(),
-                    TextInput::make('position_id')
-                        ->required()
-                        ->numeric(),
+                    Select::make('team_id')
+                        ->relationship('team', 'name')
+                        ->required(),
                     Toggle::make('is_active')
                         ->required(),
                 ])->columnSpanFull()

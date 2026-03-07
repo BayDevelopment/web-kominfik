@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Teams\Schemas;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -15,6 +16,7 @@ class TeamForm
                 Section::make([
                     TextInput::make('name')
                         ->required(),
+                    Textarea::make('jobdesc')
                 ])->columnSpanFull()
             ]);
     }

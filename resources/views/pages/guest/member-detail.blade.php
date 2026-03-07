@@ -1,4 +1,4 @@
-<x-layouts.guest.app :title="'KOMINFIK | Members'">
+<x-layouts.guest :title="'KOMINFIK | Members'">
     <section class="member-detail-page">
         <div class="container">
             <div class="member-detail-header">
@@ -304,4 +304,4 @@
             }
         </style>
     </x-slot:styles>
-</x-layouts.guest.app>
+    </x-layouts.guest.app>
