@@ -1,4 +1,4 @@
-<x-layouts.guest :title="'KOMINFIK | Members'">
+<x-layouts.guest>
     <section class="member-detail-page fade-in">
         <div class="container">
             <div class="member-detail-header">
@@ -11,25 +11,26 @@
                 <div class="member-detail-card">
                     <div class="member-detail-top">
                         <div class="member-detail-avatar">
-                            {{ $member['avatar'] }}
+                            {{ strtoupper(substr($member->name, 0, 1)) }}
                         </div>
 
                         <div class="member-detail-main">
                             <div class="member-detail-badge">
-                                {{ $member['badge'] }}
+                                {{ $member->is_active ? 'Aktif' : 'Nonaktif' }}
                             </div>
 
-                            <h1>{{ $member['name'] }}</h1>
-                            <h3>{{ $member['role'] }}</h3>
+                            <h1>{{ $member->name }}</h1>
+                            <h3>{{ $member->team->name ?? 'Anggota KOMINFIK' }}</h3>
 
                             <p class="member-detail-desc">
-                                {{ $member['desc'] }}
+                                {{ $member->name }} merupakan anggota KOMINFIK yang terdaftar dalam sistem
+                                dengan angkatan {{ $member->intake_year }}.
                             </p>
 
                             <div class="member-detail-meta">
-                                <span>{{ $member['division'] }}</span>
-                                <span>{{ $member['batch'] }}</span>
-                                <span>{{ $member['focus'] }}</span>
+                                <span>Angkatan {{ $member->intake_year }}</span>
+                                <span>Tim: {{ $member->team->name ?? '-' }}</span>
+                                <span>{{ $member->is_active ? 'Masih Aktif' : 'Tidak Aktif' }}</span>
                             </div>
                         </div>
                     </div>
@@ -38,41 +39,57 @@
                         <div class="detail-box">
                             <h4>Profil Singkat</h4>
                             <p>
-                                {{ $member['name'] }} merupakan bagian dari KOMINFIK yang berperan sebagai
-                                <strong>{{ $member['role'] }}</strong>. Dengan fokus pada
-                                <strong>{{ $member['focus'] }}</strong>, anggota ini berkontribusi aktif
-                                dalam pengembangan organisasi dan kegiatan komunitas.
+                                {{ $member->name }} merupakan anggota KOMINFIK yang terdaftar
+                                dalam sistem dengan angkatan <strong>{{ $member->intake_year }}</strong>
+                                dan tergabung dalam
+                                <strong>{{ $member->team->name ?? 'tim yang belum ditentukan' }}</strong>.
                             </p>
                         </div>
 
                         <div class="detail-box">
-                            <h4>Tanggung Jawab</h4>
+                            <h4>Status Keanggotaan</h4>
                             <p>
-                                Bertanggung jawab pada bidang <strong>{{ $member['division'] }}</strong>,
-                                mendukung jalannya program kerja, menjaga kolaborasi tim, serta memastikan
-                                setiap kegiatan berjalan efektif dan terarah.
+                                Status anggota saat ini adalah
+                                <strong>{{ $member->is_active ? 'Aktif' : 'Nonaktif' }}</strong>.
+                                Data ini digunakan untuk kebutuhan administrasi dan pendataan internal.
                             </p>
                         </div>
 
                         <div class="detail-box">
-                            <h4>Fokus Pengembangan</h4>
-                            <ul>
-                                <li>Penguatan kapasitas organisasi dan teamwork</li>
-                                <li>Peningkatan kompetensi di bidang {{ $member['focus'] }}</li>
-                                <li>Kolaborasi aktif dalam kegiatan KOMINFIK</li>
-                                <li>Kontribusi terhadap program kerja mahasiswa informatika</li>
-                            </ul>
+                            <h4>Informasi Tim</h4>
+                            <p>
+                                Anggota ini tergabung dalam tim
+                                <strong>{{ $member->team->name ?? '-' }}</strong>.
+                            </p>
                         </div>
 
                         <div class="detail-box">
                             <h4>Informasi Anggota</h4>
                             <div class="info-list">
-                                <div><span>Nama</span><strong>{{ $member['name'] }}</strong></div>
-                                <div><span>Jabatan</span><strong>{{ $member['role'] }}</strong></div>
-                                <div><span>Divisi</span><strong>{{ $member['division'] }}</strong></div>
-                                <div><span>Angkatan</span><strong>{{ $member['batch'] }}</strong></div>
-                                <div><span>Fokus</span><strong>{{ $member['focus'] }}</strong></div>
-                                <div><span>Status</span><strong>{{ $member['badge'] }}</strong></div>
+                                <div>
+                                    <span>Nama</span>
+                                    <strong>{{ $member->name }}</strong>
+                                </div>
+                                <div>
+                                    <span>Angkatan</span>
+                                    <strong>{{ $member->intake_year }}</strong>
+                                </div>
+                                <div>
+                                    <span>Tim</span>
+                                    <strong>{{ $member->team->name ?? '-' }}</strong>
+                                </div>
+                                <div>
+                                    <span>Status</span>
+                                    <strong>{{ $member->is_active ? 'Aktif' : 'Nonaktif' }}</strong>
+                                </div>
+                                <div>
+                                    <span>Dibuat</span>
+                                    <strong>{{ $member->created_at ? $member->created_at->format('d M Y H:i') : '-' }}</strong>
+                                </div>
+                                <div>
+                                    <span>Diperbarui</span>
+                                    <strong>{{ $member->updated_at ? $member->updated_at->format('d M Y H:i') : '-' }}</strong>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -304,4 +321,4 @@
             }
         </style>
     </x-slot:styles>
-    </x-layouts.guest.app>
+</x-layouts.guest>

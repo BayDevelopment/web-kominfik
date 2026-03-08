@@ -170,191 +170,60 @@
             </div>
 
             <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-1.jpg') }}" alt="Website Profile KOMINFIK">
-                        <span class="project-category">Company Profile</span>
-                    </div>
-
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 08:30 WIB</span>
-                            <span class="project-with">By Ahmad Rizky & Tim</span>
+                @forelse ($projects as $item)
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="{{ $item->image_url ?? asset('assets/default-project.webp') }}"
+                                alt="{{ $item->name }}">
+                            <span class="project-category">{{ $item->category ?? 'Project' }}</span>
                         </div>
 
-                        <h3>Website Profile KOMINFIK</h3>
-                        <p>
-                            Website profil resmi komunitas yang menampilkan informasi organisasi,
-                            kegiatan, anggota, dan media publikasi digital KOMINFIK.
-                        </p>
+                        <div class="project-content">
+                            <div class="project-meta-top">
+                                <span class="project-time">
+                                    Upload •
+                                    {{ $item->uploaded_at ? $item->uploaded_at->format('d M Y, H:i') . ' WIB' : '-' }}
+                                </span>
+                                <span class="project-with">
+                                    By {{ $item->author ?? 'Admin' }}
+                                </span>
+                            </div>
 
-                        <div class="project-meta">
-                            <span>Laravel</span>
-                            <span>UI/UX</span>
-                            <span>Organisasi</span>
-                        </div>
+                            <h3>{{ $item->name }}</h3>
+                            <p>{{ Str::limit($item->description, 120) }}</p>
 
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
-                        </div>
-                    </div>
-                </div>
+                            <div class="project-meta">
+                                <span>{{ $item->category ?? 'Project' }}</span>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-2.jpg') }}" alt="Sistem Informasi Akademik">
-                        <span class="project-category">Academic System</span>
-                    </div>
+                                @if ($item->collaborator)
+                                    <span>{{ $item->collaborator }}</span>
+                                @endif
 
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 10:15 WIB</span>
-                            <span class="project-with">By Nadia Safitri & Fikri</span>
-                        </div>
+                                @if ($item->github_url)
+                                    <span>GitHub Available</span>
+                                @endif
+                            </div>
 
-                        <h3>Sistem Informasi Akademik</h3>
-                        <p>
-                            Platform digital untuk pengelolaan data akademik mahasiswa seperti jadwal,
-                            pengumuman, data kelas, dan arsip pembelajaran.
-                        </p>
+                            <div class="project-actions">
+                                <a href="{{ route('project.show', $item->slug) }}" class="btn btn-primary">
+                                    Lihat Detail
+                                </a>
 
-                        <div class="project-meta">
-                            <span>Web App</span>
-                            <span>Dashboard</span>
-                            <span>Laravel</span>
-                        </div>
-
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
+                                @if ($item->demo_url)
+                                    <a href="{{ $item->demo_url }}" class="btn btn-outline" target="_blank"
+                                        rel="noopener noreferrer">
+                                        Live Demo
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-3.jpg') }}" alt="Website Pendaftaran Anggota">
-                        <span class="project-category">Registration</span>
+                @empty
+                    <div style="grid-column: 1/-1; text-align:center; padding:40px;">
+                        <h3>Tidak ada project yang ditampilkan</h3>
+                        <p>Project akan muncul di sini setelah dipublikasikan.</p>
                     </div>
-
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 13:45 WIB</span>
-                            <span class="project-with">By Salsa Amelia & Laila</span>
-                        </div>
-
-                        <h3>Website Pendaftaran Anggota</h3>
-                        <p>
-                            Sistem pendaftaran anggota baru yang memudahkan proses registrasi,
-                            verifikasi data, dan pengelolaan calon anggota komunitas.
-                        </p>
-
-                        <div class="project-meta">
-                            <span>Form System</span>
-                            <span>Database</span>
-                            <span>Community</span>
-                        </div>
-
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-4.jpg') }}" alt="Website Event Mahasiswa">
-                        <span class="project-category">Event Platform</span>
-                    </div>
-
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 15:20 WIB</span>
-                            <span class="project-with">By Bayu Prasetyo & Dio</span>
-                        </div>
-
-                        <h3>Website Event Mahasiswa</h3>
-                        <p>
-                            Website event untuk publikasi seminar, workshop, lomba, dan sistem
-                            pendaftaran kegiatan yang diadakan oleh mahasiswa informatika.
-                        </p>
-
-                        <div class="project-meta">
-                            <span>Event</span>
-                            <span>Responsive</span>
-                            <span>Frontend</span>
-                        </div>
-
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-5.jpg') }}" alt="Website Portofolio Mahasiswa">
-                        <span class="project-category">Portfolio</span>
-                    </div>
-
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 17:00 WIB</span>
-                            <span class="project-with">By Citra Ramadhani & Team UI</span>
-                        </div>
-
-                        <h3>Website Portofolio Mahasiswa</h3>
-                        <p>
-                            Platform portofolio digital untuk menampilkan karya, skill, pengalaman,
-                            dan project mahasiswa informatika secara profesional.
-                        </p>
-
-                        <div class="project-meta">
-                            <span>Portfolio</span>
-                            <span>UI/UX</span>
-                            <span>Personal Branding</span>
-                        </div>
-
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="{{ asset('assets/project/project-6.jpg') }}" alt="Website Informasi Fakultas">
-                        <span class="project-category">Information System</span>
-                    </div>
-
-                    <div class="project-content">
-                        <div class="project-meta-top">
-                            <span class="project-time">Upload • 19:10 WIB</span>
-                            <span class="project-with">By Muhammad Fikri & Ahmad Rizky</span>
-                        </div>
-
-                        <h3>Website Informasi Fakultas</h3>
-                        <p>
-                            Sistem informasi berbasis web untuk menyajikan data fakultas, berita,
-                            pengumuman, agenda, dan layanan informasi akademik.
-                        </p>
-
-                        <div class="project-meta">
-                            <span>Information</span>
-                            <span>CMS</span>
-                            <span>Laravel</span>
-                        </div>
-
-                        <div class="project-actions">
-                            <a href="#" class="btn btn-primary">Lihat Detail</a>
-                            <a href="#" class="btn btn-outline">Live Demo</a>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -391,29 +260,39 @@
 
                 <div class="member-scroll-box">
                     <div class="member-scroll">
-                        @foreach ($members as $member)
+                        @forelse ($members as $member)
                             @php
                                 $initials = implode(
                                     '',
                                     array_map(fn($w) => strtoupper($w[0]), explode(' ', $member->name)),
                                 );
                             @endphp
-                            <a href="{{ route('member.detail', ['id' => $member->id]) }}" class="member-card">
+
+                            <a href="{{ route('member.detail', $member->id) }}" class="member-card">
                                 <div class="avatar">{{ $initials }}</div>
+
                                 <div class="member-body">
                                     <div class="member-top">
                                         <h4>{{ $member->name }}</h4>
                                     </div>
+
                                     <p>
-                                        {{ $member->team->jobdesc }}
+                                        {{ $member->team->jobdesc ?? '-' }}
                                     </p>
+
                                     <div class="member-meta">
-                                        <span>Divisi {{ $member->team->name }}</span>
+                                        <span>Divisi {{ $member->team->name ?? '-' }}</span>
                                         <span>Angkatan {{ $member->intake_year }}</span>
                                     </div>
                                 </div>
                             </a>
-                        @endforeach
+
+                        @empty
+                            <div style="width:100%; text-align:center; padding:40px;">
+                                <h3>Tidak ada anggota yang dipublish</h3>
+                                <p>Silakan cek kembali nanti ketika anggota sudah dipublikasikan.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
