@@ -1,4 +1,4 @@
-<section class="registration-page">
+<section class="registration-page fade-in">
     <div class="container">
         <div class="registration-header">
             <span class="tag">Pendaftaran Anggota</span>
@@ -12,8 +12,8 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="name">Nama Lengkap</label>
-                            <input type="text" id="name" wire:model="name" placeholder="Masukkan nama lengkap Anda"
-                                required>
+                            <input type="text" id="name" wire:model="name"
+                                placeholder="Masukkan nama lengkap Anda" required>
                             @error('name')
                                 <p class="invalid-input">{{ $message }}</p>
                             @enderror
@@ -32,7 +32,7 @@
                             <label for="team_id">Pilih Divisi / Tim</label>
                             <select id="team_id" wire:model="team_id" required>
                                 <option value="">-- Pilih Divisi --</option>
-                                @foreach($teams as $team)
+                                @foreach ($teams as $team)
                                     <option value="{{ $team->id }}">{{ $team->name }}</option>
                                 @endforeach
                             </select>

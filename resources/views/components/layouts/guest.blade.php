@@ -16,12 +16,13 @@
     <x-guest.navbar />
 
     <main>
-        {{$slot}}
+        {{ $slot }}
     </main>
 
     <x-guest.footer />
 
     {{ $scripts ?? '' }}
+    <script src="{{ asset('js/fade-in-scroll.js') }}"></script>
 </body>
 
 </html>

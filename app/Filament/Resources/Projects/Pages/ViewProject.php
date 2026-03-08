@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Filament\Resources\HeroSections\Pages;
+namespace App\Filament\Resources\Projects\Pages;
 
-use App\Filament\Resources\HeroSections\HeroSectionResource;
+use App\Filament\Resources\Projects\ProjectResource;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewHeroSection extends ViewRecord
+class ViewProject extends ViewRecord
 {
-    protected static string $resource = HeroSectionResource::class;
+    protected static string $resource = ProjectResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             Action::make('back')
                 ->label('Kembali')
-                ->url($this->getResource()::getUrl('index'))
                 ->icon('heroicon-o-arrow-left')
-                ->outlined()
+                ->color('gray')
+                ->url($this->getResource()::getUrl('index')),
         ];
     }
 }

@@ -1,5 +1,5 @@
 <x-layouts.guest>
-    <section class="hero" id="beranda">
+    <section class="hero fade-in" id="beranda">
         <div class="container hero-grid">
             <div>
                 <div class="hero-badge">
@@ -75,7 +75,7 @@
     </section>
 
     <section id="tentang">
-        <div class="container">
+        <div class="container fade-in-scroll">
             <div class="section-header">
                 <span class="tag">Tentang KOMINFIK</span>
                 <h2>Komunitas yang Elegan, Aktif, dan Berorientasi Masa Depan</h2>
@@ -117,7 +117,7 @@
     </section>
 
     <section id="program">
-        <div class="container">
+        <div class="container fade-in-scroll">
             <div class="section-header">
                 <span class="tag">Program Unggulan</span>
                 <h2>Aktivitas Modern yang Relevan untuk Mahasiswa Informatika</h2>
@@ -158,8 +158,209 @@
         </div>
     </section>
 
+    <section id="project">
+        <div class="container fade-in-scroll">
+            <div class="section-header">
+                <span class="tag">Project Website</span>
+                <h2>Karya Website yang Dibangun Oleh Anggota KOMINFIK</h2>
+                <p>
+                    Berbagai project digital yang dikembangkan oleh anggota KOMINFIK sebagai bentuk
+                    implementasi kemampuan teknis, kolaborasi tim, dan kreativitas mahasiswa informatika.
+                </p>
+            </div>
+
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-1.jpg') }}" alt="Website Profile KOMINFIK">
+                        <span class="project-category">Company Profile</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 08:30 WIB</span>
+                            <span class="project-with">By Ahmad Rizky & Tim</span>
+                        </div>
+
+                        <h3>Website Profile KOMINFIK</h3>
+                        <p>
+                            Website profil resmi komunitas yang menampilkan informasi organisasi,
+                            kegiatan, anggota, dan media publikasi digital KOMINFIK.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Laravel</span>
+                            <span>UI/UX</span>
+                            <span>Organisasi</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-2.jpg') }}" alt="Sistem Informasi Akademik">
+                        <span class="project-category">Academic System</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 10:15 WIB</span>
+                            <span class="project-with">By Nadia Safitri & Fikri</span>
+                        </div>
+
+                        <h3>Sistem Informasi Akademik</h3>
+                        <p>
+                            Platform digital untuk pengelolaan data akademik mahasiswa seperti jadwal,
+                            pengumuman, data kelas, dan arsip pembelajaran.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Web App</span>
+                            <span>Dashboard</span>
+                            <span>Laravel</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-3.jpg') }}" alt="Website Pendaftaran Anggota">
+                        <span class="project-category">Registration</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 13:45 WIB</span>
+                            <span class="project-with">By Salsa Amelia & Laila</span>
+                        </div>
+
+                        <h3>Website Pendaftaran Anggota</h3>
+                        <p>
+                            Sistem pendaftaran anggota baru yang memudahkan proses registrasi,
+                            verifikasi data, dan pengelolaan calon anggota komunitas.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Form System</span>
+                            <span>Database</span>
+                            <span>Community</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-4.jpg') }}" alt="Website Event Mahasiswa">
+                        <span class="project-category">Event Platform</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 15:20 WIB</span>
+                            <span class="project-with">By Bayu Prasetyo & Dio</span>
+                        </div>
+
+                        <h3>Website Event Mahasiswa</h3>
+                        <p>
+                            Website event untuk publikasi seminar, workshop, lomba, dan sistem
+                            pendaftaran kegiatan yang diadakan oleh mahasiswa informatika.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Event</span>
+                            <span>Responsive</span>
+                            <span>Frontend</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-5.jpg') }}" alt="Website Portofolio Mahasiswa">
+                        <span class="project-category">Portfolio</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 17:00 WIB</span>
+                            <span class="project-with">By Citra Ramadhani & Team UI</span>
+                        </div>
+
+                        <h3>Website Portofolio Mahasiswa</h3>
+                        <p>
+                            Platform portofolio digital untuk menampilkan karya, skill, pengalaman,
+                            dan project mahasiswa informatika secara profesional.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Portfolio</span>
+                            <span>UI/UX</span>
+                            <span>Personal Branding</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="{{ asset('assets/project/project-6.jpg') }}" alt="Website Informasi Fakultas">
+                        <span class="project-category">Information System</span>
+                    </div>
+
+                    <div class="project-content">
+                        <div class="project-meta-top">
+                            <span class="project-time">Upload • 19:10 WIB</span>
+                            <span class="project-with">By Muhammad Fikri & Ahmad Rizky</span>
+                        </div>
+
+                        <h3>Website Informasi Fakultas</h3>
+                        <p>
+                            Sistem informasi berbasis web untuk menyajikan data fakultas, berita,
+                            pengumuman, agenda, dan layanan informasi akademik.
+                        </p>
+
+                        <div class="project-meta">
+                            <span>Information</span>
+                            <span>CMS</span>
+                            <span>Laravel</span>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="#" class="btn btn-primary">Lihat Detail</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="anggota">
-        <div class="container">
+        <div class="container fade-in-scroll">
             <div class="section-header">
                 <span class="tag">Anggota KOMINFIK</span>
                 <h2>Tim Mahasiswa yang Aktif, Profesional, dan Visioner</h2>
@@ -183,7 +384,8 @@
                         <div>✅ Kesempatan membangun portofolio dan leadership</div>
                     </div>
                     <div style="margin-top: 24px;">
-                        <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Menjadi Anggota</a>
+                        <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Menjadi
+                            Anggota</a>
                     </div>
                 </div>
 
@@ -191,7 +393,10 @@
                     <div class="member-scroll">
                         @foreach ($members as $member)
                             @php
-                                $initials = implode('', array_map(fn ($w) => strtoupper($w[0]), explode(' ', $member->name)));
+                                $initials = implode(
+                                    '',
+                                    array_map(fn($w) => strtoupper($w[0]), explode(' ', $member->name)),
+                                );
                             @endphp
                             <a href="{{ route('member.detail', ['id' => $member->id]) }}" class="member-card">
                                 <div class="avatar">{{ $initials }}</div>
@@ -216,7 +421,7 @@
     </section>
 
     <section class="cta" id="kontak">
-        <div class="container">
+        <div class="container fade-in-scroll">
             <div class="cta-box">
                 <h2>Siap Menjadi Bagian dari KOMINFIK?</h2>
                 <p>
@@ -225,7 +430,8 @@
                 </p>
                 <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
                     <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Sekarang</a>
-                    <a href="https://wa.me/628989649370" target="_blank" class=" btn btn-outline">Hubungi Pengurus</a>
+                    <a href="https://wa.me/628989649370" target="_blank" class=" btn btn-outline">Hubungi
+                        Pengurus</a>
                 </div>
             </div>
         </div>
@@ -233,7 +439,7 @@
 
     <x-slot:scripts>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 const scrollBox = document.querySelector('.member-scroll');
 
                 if (scrollBox) {

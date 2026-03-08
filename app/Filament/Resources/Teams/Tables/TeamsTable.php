@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\Teams\Tables;
 
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\Size;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -29,7 +33,22 @@ class TeamsTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                ActionGroup::make([
+                    EditAction::make(),
+
+                    DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->title('Berhasil')
+                                ->body('Data berhasil dihapus.')
+                                ->success()
+                                ->icon('heroicon-o-check-circle')
+                        ),
+                ])
+                    ->label('Aksi')
+                    ->icon('heroicon-o-ellipsis-horizontal')
+                    ->button()
+                    ->size(Size::Small),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

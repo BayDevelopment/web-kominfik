@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Filament\Resources\Members\Pages;
+namespace App\Filament\Resources\Projects\Pages;
 
-use App\Filament\Resources\Members\MemberResource;
+use App\Filament\Resources\Projects\ProjectResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
-class ListMembers extends ListRecords
+class ListProjects extends ListRecords
 {
-    protected static string $resource = MemberResource::class;
+    protected static string $resource = ProjectResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
             CreateAction::make()
-                ->label('Member')
+                ->label('Project')
                 ->icon('heroicon-o-plus'),
         ];
     }

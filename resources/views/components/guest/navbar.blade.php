@@ -22,6 +22,7 @@
                 <a href="{{ route('home') }}#beranda" class="nav-link">Beranda</a>
                 <a href="{{ route('home') }}#tentang" class="nav-link">Tentang</a>
                 <a href="{{ route('home') }}#program" class="nav-link">Program</a>
+                <a href="{{ route('home') }}#project" class="nav-link">Project</a>
                 <a href="{{ route('home') }}#anggota" class="nav-link">Anggota</a>
                 <a href="{{ route('home') }}#kontak" class="nav-link">Kontak</a>
             </div>
@@ -33,35 +34,34 @@
     </div>
 </nav>
 
-<x-slot:scripts>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const navToggle = document.getElementById('navToggle');
-            const navMenuWrap = document.getElementById('navMenuWrap');
-            const navbar = document.getElementById('navbar');
-            const navLinks = document.querySelectorAll('.nav-link');
+{{-- jangan dipakai dengan x-slot  --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.getElementById('navToggle');
+        const navMenuWrap = document.getElementById('navMenuWrap');
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-            if (navToggle && navMenuWrap) {
-                navToggle.addEventListener('click', function () {
-                    navToggle.classList.toggle('active');
-                    navMenuWrap.classList.toggle('active');
-                });
-            }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    navToggle.classList.remove('active');
-                    navMenuWrap.classList.remove('active');
-                });
+        if (navToggle && navMenuWrap) {
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                navMenuWrap.classList.toggle('active');
             });
+        }
 
-            window.addEventListener('scroll', function () {
-                if (window.scrollY > 20) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+                navMenuWrap.classList.remove('active');
             });
         });
-    </script>
-</x-slot:scripts>
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    });
+</script>

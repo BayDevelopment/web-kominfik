@@ -13,7 +13,9 @@ class ListHeroSections extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('Member')
+                ->icon('heroicon-o-plus'),
         ];
     }
 }

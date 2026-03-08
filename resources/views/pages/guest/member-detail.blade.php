@@ -1,5 +1,5 @@
 <x-layouts.guest :title="'KOMINFIK | Members'">
-    <section class="member-detail-page">
+    <section class="member-detail-page fade-in">
         <div class="container">
             <div class="member-detail-header">
                 <a href="{{ route('home') }}#anggota" class="back-link">

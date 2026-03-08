@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Filament\Resources\Members\Pages;
+namespace App\Filament\Resources\Projects\Pages;
 
-use App\Filament\Resources\Members\MemberResource;
+use App\Filament\Resources\Projects\ProjectResource;
 use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
-class EditMember extends EditRecord
+class EditProject extends EditRecord
 {
-    protected static string $resource = MemberResource::class;
+    protected static string $resource = ProjectResource::class;
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
             ->title('Berhasil')
-            ->body('Data Member berhasil diperbarui.')
-            ->success();
+            ->body('Data project berhasil diperbarui.')
+            ->success()
+            ->icon('heroicon-o-check-circle');
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 
     protected function getHeaderActions(): array
@@ -30,13 +31,13 @@ class EditMember extends EditRecord
         return [
             Action::make('back')
                 ->label('Kembali')
-                ->url($this->getResource()::getUrl('index'))
                 ->icon('heroicon-o-arrow-left')
-                ->outlined()
+                ->color('gray')
+                ->url($this->getResource()::getUrl('index')),
         ];
     }
 
-    public function getFormActions(): array
+    protected function getFormActions(): array
     {
         return [
             $this->getSaveFormAction()

@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -26,7 +27,9 @@ class MyadminPanelProvider extends PanelProvider
             ->default()
             ->id('myadmin')
             ->path('myadmin')
+            ->font('poppins')
             ->login()
+            ->passwordReset()
             ->colors([
                 'primary' => Color::Purple,
             ])
@@ -53,6 +56,16 @@ class MyadminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->profile();
+            ->profile(EditProfile::class)
+            ->brandLogo(fn() => new \Illuminate\Support\HtmlString(
+                '<span style="
+                    font-size:20px;
+                    font-family:Poppins,sans-serif;
+                    font-style:italic;
+                    letter-spacing:0.5px;
+                ">
+                    <span style="font-weight:300;color:#111;">KOMIN</span><span style="font-weight:600;color:#7c3aed;">FIK</span>
+                </span>'
+            ));
     }
 }

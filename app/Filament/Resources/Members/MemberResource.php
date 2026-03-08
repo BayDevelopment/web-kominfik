@@ -24,6 +24,13 @@ class MemberResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    // NEW
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+
     public static function form(Schema $schema): Schema
     {
         return MemberForm::configure($schema);
