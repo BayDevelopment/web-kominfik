@@ -28,7 +28,7 @@
             </div>
 
             <div class="nav-cta">
-                <a href="{{ route('member.registration') }}" class="nav-btn">Gabung Sekarang</a>
+                <a href="{{ route('register.index') }}" class="nav-btn">Gabung Sekarang</a>
             </div>
         </div>
     </div>

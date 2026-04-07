@@ -253,7 +253,7 @@
                         <div>✅ Kesempatan membangun portofolio dan leadership</div>
                     </div>
                     <div style="margin-top: 24px;">
-                        <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Menjadi
+                        <a href="{{ route('register.index') }}" class="btn btn-primary">Daftar Menjadi
                             Anggota</a>
                     </div>
                 </div>
@@ -308,7 +308,7 @@
                     pada pengembangan potensi mahasiswa informatika Fakultas Ilmu Komputer.
                 </p>
                 <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-                    <a href="{{ route('member.registration') }}" class="btn btn-primary">Daftar Sekarang</a>
+                    <a href="{{ route('register.index') }}" class="btn btn-primary">Daftar Sekarang</a>
                     <a href="https://wa.me/628989649370" target="_blank" class=" btn btn-outline">Hubungi
                         Pengurus</a>
                 </div>

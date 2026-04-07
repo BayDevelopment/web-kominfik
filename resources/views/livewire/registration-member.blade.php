@@ -1,59 +1,164 @@
 <section class="registration-page fade-in">
     <div class="container">
-        <div class="registration-header">
-            <span class="tag">Pendaftaran Anggota</span>
-            <h1>Bergabung dengan KOMINFIK</h1>
-            <p>Jadilah bagian dari komunitas mahasiswa informatika yang visioner dan kolaboratif.</p>
+
+        {{-- HEADER --}}
+        @php
+            $isMember = $type === 'member';
+        @endphp
+
+        <div class="registration-header text-center">
+
+            <h1>
+                {{ $isMember ? 'Pendaftaran Member' : 'Form Kerjasama' }}
+            </h1>
+
+            <p style="font-size:14px; color:#666; margin-bottom:16px;">
+                {{ $isMember
+                    ? 'Silakan isi form berikut untuk mendaftar sebagai member. Data Anda akan kami verifikasi terlebih dahulu sebelum disetujui.'
+                    : 'Silakan isi form berikut untuk mengajukan kerjasama. Tim kami akan meninjau pengajuan Anda dan menghubungi Anda kembali melalui email.' }}
+            </p>
+
         </div>
 
         <div class="registration-wrapper">
             <div class="registration-card">
-                <form wire:submit.prevent="handleSubmit" class="registration-form">
+
+                <form wire:submit.prevent="{{ $type === 'member' ? 'submitMember' : 'submitKerjasama' }}"
+                    class="registration-form">
+
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">Nama Lengkap</label>
-                            <input type="text" id="name" wire:model="name"
-                                placeholder="Masukkan nama lengkap Anda" required>
-                            @error('name')
-                                <p class="invalid-input">{{ $message }}</p>
-                            @enderror
-                        </div>
 
-                        <div class="form-group">
-                            <label for="intake_year">Tahun Angkatan</label>
-                            <input type="text" id="intake_year" wire:model="intake_year" placeholder="Contoh: 2024"
-                                required>
-                            @error('intake_year')
-                                <p class="invalid-input">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        {{-- ================= MEMBER ================= --}}
+                        @if ($type === 'member')
 
-                        <div class="form-group">
-                            <label for="team_id">Pilih Divisi / Tim</label>
-                            <select id="team_id" wire:model="team_id" required>
-                                <option value="">-- Pilih Divisi --</option>
-                                @foreach ($teams as $team)
-                                    <option value="{{ $team->id }}">{{ $team->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('team_id')
-                                <p class="invalid-input">{{ $message }}</p>
-                            @enderror
-                        </div>
+                            <div class="form-group">
+                                <label>Nama Lengkap</label>
+                                <input type="text" wire:model.defer="name" placeholder="Masukkan nama lengkap">
+                                @error('name')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tahun Angkatan</label>
+                                <input type="number" wire:model.defer="intake_year" placeholder="Contoh: 2024">
+                                @error('intake_year')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Divisi</label>
+                                <select wire:model.defer="team_id" {{ $teams->isEmpty() ? 'disabled' : '' }}>
+                                    @if ($teams->isEmpty())
+                                        <option>Divisi kosong</option>
+                                    @else
+                                        <option value="">Pilih Divisi</option>
+                                        @foreach ($teams as $team)
+                                            <option value="{{ $team->id }}">{{ $team->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('team_id')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" wire:model.defer="email" placeholder="Masukkan email">
+                                @error('email')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>No WhatsApp</label>
+                                <input type="tel" wire:model.defer="phone" placeholder="628xxxx">
+                                @error('phone')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                        @endif
+
+
+                        {{-- ================= KERJASAMA ================= --}}
+                        @if (in_array($type, ['sponsor', 'university']))
+                            <div class="form-group">
+                                <label>Nama Instansi</label>
+                                <input type="text" wire:model.defer="instansi_nama"
+                                    placeholder="Contoh: PT Maju Jaya / Universitas Indonesia">
+                                @error('instansi_nama')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email Instansi</label>
+                                <input type="email" wire:model.defer="instansi_email"
+                                    placeholder="Contoh: info@instansi.com">
+                                @error('instansi_email')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>No WhatsApp Instansi</label>
+                                <input type="tel" wire:model.defer="instansi_phone"
+                                    placeholder="Contoh: 628123456789">
+                                @error('instansi_phone')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nama PIC (Penanggung Jawab)</label>
+                                <input type="text" wire:model.defer="pic_name" placeholder="Contoh: Budi Santoso">
+                                @error('pic_name')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label>Deskripsi Kerjasama</label>
+                                <textarea wire:model.defer="deskripsi" rows="4"
+                                    placeholder="Jelaskan bentuk kerjasama yang ingin diajukan, contoh: sponsorship event, kolaborasi riset, dll"></textarea>
+                                @error('deskripsi')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
                     </div>
 
-                    <div class="form-footer">
-                        <button type="submit" class="btn btn-primary btn-block" wire:loading.attr="disabled"
-                            wire:target="handleSubmit">
-                            Daftar Sekarang ✨
+                    {{-- BUTTON --}}
+                    <div style="display:flex; flex-direction:column; gap:12px; margin-top:24px;">
+
+                        <button type="button" onclick="window.history.back()" class="btn btn-secondary btn-block">
+                            Kembali
                         </button>
-                        <p class="form-note">
-                            Dengan mendaftar, Anda setuju untuk mengikuti aturan dan budaya organisasi KOMINFIK.
-                        </p>
+
+                        <button type="submit" class="btn btn-primary btn-block" wire:loading.attr="disabled"
+                            wire:target="{{ $type === 'member' ? 'submitMember' : 'submitKerjasama' }}">
+
+                            <span wire:loading.remove>
+                                {{ $type === 'member' ? 'Daftar Sekarang' : 'Kirim Pengajuan' }}
+                            </span>
+
+                            <span wire:loading style="display:none;">
+                                Loading...
+                            </span>
+
+                        </button>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
+
     </div>
 </section>
 
@@ -186,6 +291,73 @@
             .registration-page {
                 padding: 100px 0 60px;
             }
+        }
+
+        .registration-type-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .type-card {
+            padding: 28px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .type-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary);
+        }
+
+        .type-card.active {
+            border: 2px solid var(--primary);
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+        }
+
+        .badge.open {
+            background: #16a34a;
+            color: white;
+        }
+
+        .badge.closed {
+            background: #dc2626;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .registration-type-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        textarea {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: #fff;
+            font-size: 1rem;
+            resize: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.15);
         }
     </style>
 </x-slot:styles>

@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('intake_year');
-            $table->unsignedBigInteger('team_id');
-            $table->boolean('is_active');
+            $table->year('intake_year')->index();
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
+            $table->string('email')->unique();
+            $table->string('phone');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->foreign('team_id')->references('id')->on('teams');
+            // 🔥 optional combo index
+            $table->index(['team_id', 'is_active']);
         });
     }
 

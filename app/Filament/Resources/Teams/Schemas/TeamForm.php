@@ -17,6 +17,7 @@ class TeamForm
                     TextInput::make('name')
                         ->required(),
                     Textarea::make('jobdesc')
+                        ->required()
                 ])->columnSpanFull()
             ]);
     }
