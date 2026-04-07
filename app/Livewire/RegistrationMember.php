@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Mail\RegistrationSuccessMail; // ✅ mail
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail; // ✅ mail
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -46,6 +47,19 @@ class RegistrationMember extends Component
     // ===== MEMBER =====
     public function submitMember()
     {
+        // 🔐 RATE LIMIT (5x / 5 menit)
+        $key = 'register-member-' . md5(request()->ip() . $this->email);
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('rate_limit', 'Terlalu banyak percobaan. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.');
+            return;
+        }
+
+        RateLimiter::hit($key, 300);
+
+        // =========================
+
         if (Team::count() === 0) {
             $this->addError('team_id', 'Data divisi belum tersedia, silakan hubungi admin.');
             return;
@@ -60,15 +74,17 @@ class RegistrationMember extends Component
         ], [
             'name.required' => 'Nama wajib diisi.',
             'name.min' => 'Nama minimal 3 karakter.',
+            'name.max' => 'Nama maksimal 255 karakter.',
 
             'intake_year.required' => 'Tahun masuk wajib diisi.',
             'intake_year.digits' => 'Tahun masuk harus 4 digit (contoh: 2022).',
 
             'team_id.required' => 'Divisi wajib dipilih.',
-            'team_id.exists' => 'Divisi yang dipilih tidak valid.',
+            'team_id.exists' => 'Divisi tidak valid atau tidak ditemukan.',
 
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email terlalu panjang.',
             'email.unique' => 'Email sudah terdaftar.',
 
             'phone.required' => 'Nomor telepon wajib diisi.',
@@ -80,13 +96,10 @@ class RegistrationMember extends Component
         $validated['name'] = Str::title(trim($validated['name']));
         $validated['email'] = strtolower(trim($validated['email']));
         $validated['phone'] = preg_replace('/[^0-9]/', '', $validated['phone']);
-
         $validated['is_active'] = false;
 
-        // 🔥 Simpan
         Member::create($validated);
 
-        // 🔥 Kirim Email
         Mail::to($validated['email'])
             ->send(new RegistrationSuccessMail($validated['name']));
 
@@ -98,6 +111,19 @@ class RegistrationMember extends Component
     // ===== KERJASAMA =====
     public function submitKerjasama()
     {
+        // 🔐 RATE LIMIT (5x / 5 menit)
+        $key = 'register-kerjasama-' . md5(request()->ip() . $this->instansi_email);
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('rate_limit', 'Terlalu banyak percobaan. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.');
+            return;
+        }
+
+        RateLimiter::hit($key, 300);
+
+        // =========================
+
         $validated = $this->validate([
             'instansi_nama' => 'required|string|min:3|max:255',
             'instansi_email' => 'required|email|max:255',
@@ -113,11 +139,12 @@ class RegistrationMember extends Component
 
             'instansi_phone.required' => 'Nomor telepon instansi wajib diisi.',
             'instansi_phone.min' => 'Nomor telepon minimal 10 digit.',
+            'instansi_phone.max' => 'Nomor telepon maksimal 20 digit.',
 
             'pic_name.required' => 'Nama PIC wajib diisi.',
             'pic_name.min' => 'Nama PIC minimal 3 karakter.',
 
-            'deskripsi.required' => 'Deskripsi kerjasama wajib diisi.',
+            'deskripsi.required' => 'Deskripsi wajib diisi.',
             'deskripsi.min' => 'Deskripsi minimal 10 karakter.',
         ]);
 
@@ -128,14 +155,12 @@ class RegistrationMember extends Component
         $validated['instansi_phone'] = preg_replace('/[^0-9]/', '', $validated['instansi_phone']);
         $validated['deskripsi'] = trim($validated['deskripsi']);
 
-        // 🔥 Default DB
+        $validated['type'] = $this->type;
         $validated['status'] = 'pending';
         $validated['submitted_at'] = now();
 
-        // 🔥 Simpan
         Partnership::create($validated);
 
-        // 🔥 Kirim Email
         Mail::to($validated['instansi_email'])
             ->send(new RegistrationSuccessMail($validated['pic_name']));
 
