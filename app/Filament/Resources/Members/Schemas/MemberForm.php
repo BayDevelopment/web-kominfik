@@ -16,27 +16,59 @@ class MemberForm
     {
         return $schema
             ->components([
-                Section::make([
-                    TextInput::make('name')
-                        ->required(),
-                    TextInput::make('intake_year')
-                        ->required(),
-                    Select::make('team_id')
-                        ->relationship('team', 'name')
-                        ->required()
-                        ->disabled(fn() => Team::count() === 0)
-                        ->helperText(function () {
-                            if (Team::count() === 0) {
-                                return new HtmlString(
-                                    '<span class="text-danger-600">Harap isi data Teams terlebih dahulu.</span>'
-                                );
-                            }
+                Section::make('Data Member')
+                    ->schema([
 
-                            return null;
-                        }),
-                    Toggle::make('is_active')
-                        ->required(),
-                ])->columnSpanFull()
+                        TextInput::make('name')
+                            ->label('Nama Lengkap')
+                            ->required()
+                            ->minLength(3)
+                            ->maxLength(255),
+
+                        TextInput::make('intake_year')
+                            ->label('Tahun Angkatan')
+                            ->numeric()
+                            ->required()
+                            ->minLength(4)
+                            ->maxLength(4)
+                            ->placeholder('Contoh: 2024'),
+
+                        Select::make('team_id')
+                            ->label('Divisi')
+                            ->relationship('team', 'name')
+                            ->required()
+                            ->disabled(fn() => Team::count() === 0)
+                            ->helperText(function () {
+                                if (Team::count() === 0) {
+                                    return new HtmlString(
+                                        '<span class="text-danger-600">Harap isi data divisi terlebih dahulu.</span>'
+                                    );
+                                }
+                                return null;
+                            }),
+
+                        TextInput::make('email')
+                            ->label('Email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+
+                        TextInput::make('phone')
+                            ->label('No WhatsApp')
+                            ->tel()
+                            ->required()
+                            ->minLength(10)
+                            ->maxLength(15)
+                            ->placeholder('628xxxx'),
+
+                        Toggle::make('is_active')
+                            ->label('Status Aktif')
+                            ->default(false),
+
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
             ]);
     }
 }
