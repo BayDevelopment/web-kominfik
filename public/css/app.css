@@ -634,15 +634,7 @@ section {
 .avatar {
     min-width: 62px;
     width: 62px;
-    height: 62px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: white;
-    box-shadow: 0 12px 24px rgba(79, 140, 255, 0.25);
+    border-radius: 10px;
 }
 
 .member-body h4 {

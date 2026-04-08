@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Members\Schemas;
 
 use App\Models\Team;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -18,12 +19,27 @@ class MemberForm
             ->components([
                 Section::make('Data Member')
                     ->schema([
-
                         TextInput::make('name')
                             ->label('Nama Lengkap')
                             ->required()
                             ->minLength(3)
                             ->maxLength(255),
+
+                        TextInput::make('linkedin')
+                            ->required()
+                            ->placeholder('Https')
+                            ->minLength(3)
+                            ->maxLength(255),
+
+                        FileUpload::make('avatar')
+                            ->required()
+                            ->image()
+                            ->imageEditor() // optional kalau mau ada crop/edit
+                            ->maxSize(1024) // 1MB (dalam KB)
+                            ->acceptedFileTypes(['image/jpeg']) // 🔥 hanya JPG/JPEG
+                            ->disk('public') // 🔥 simpan ke storage/app/public
+                            ->directory('avatars') // folder: storage/app/public/avatars
+                            ->visibility('public'),
 
                         TextInput::make('intake_year')
                             ->label('Tahun Angkatan')

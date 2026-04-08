@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('avatar');
+            $table->string('linkedin');
             $table->year('intake_year')->index();
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->string('email')->unique();

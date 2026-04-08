@@ -61,13 +61,41 @@
                         </div>
                     </div>
 
-                    <div style="margin-top: 20px; position: relative; z-index: 1;">
-                        <div class="mini-box">
-                            <h4>Visi KOMINFIK</h4>
-                            <p>
+                    <div style="margin-top: 30px; position: relative; z-index: 1;">
+                        <!-- VISI -->
+                        <div class="mini-box" style="padding: 20px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px;">Visi KOMINFIK</h4>
+                            <p style="margin-bottom: 0;">
                                 {{ $hero_section->vision ?? 'No Vision' }}
                             </p>
                         </div>
+
+                        <!-- MISI -->
+                        <div class="mini-box" style="padding: 20px;">
+                            <h4 style="margin-bottom: 15px;">Misi KOMINFIK</h4>
+
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+
+                                <div style="display: flex; align-items: start; gap: 10px;">
+                                    <span style="color: #4f46e5;">✔</span>
+                                    <p style="margin: 0;">Menyelenggarakan pembelajaran berbasis praktik untuk
+                                        meningkatkan kompetensi teknologi.</p>
+                                </div>
+
+                                <div style="display: flex; align-items: start; gap: 10px;">
+                                    <span style="color: #4f46e5;">✔</span>
+                                    <p style="margin: 0;">Menghasilkan project digital yang relevan dengan kebutuhan
+                                        industri.</p>
+                                </div>
+
+                                <div style="display: flex; align-items: start; gap: 10px;">
+                                    <span style="color: #4f46e5;">✔</span>
+                                    <p style="margin: 0;">Membangun kolaborasi aktif antar anggota dan mitra.</p>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -269,7 +297,10 @@
                             @endphp
 
                             <a href="{{ route('member.detail', $member->id) }}" class="member-card">
-                                <div class="avatar">{{ $initials }}</div>
+                                <div>
+                                    <img src="{{ Storage::url($member->avatar) }}" alt="{{ $member->name }}"
+                                        class="avatar">
+                                </div>
 
                                 <div class="member-body">
                                     <div class="member-top">

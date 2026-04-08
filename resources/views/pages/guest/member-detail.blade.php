@@ -10,8 +10,9 @@
             <div class="member-detail-wrapper">
                 <div class="member-detail-card">
                     <div class="member-detail-top">
-                        <div class="member-detail-avatar">
-                            {{ strtoupper(substr($member->name, 0, 1)) }}
+                        <div>
+                            <img src="{{ Storage::url($member->avatar) }}" alt="{{ $member->name }}"
+                                class="member-detail-avatar">
                         </div>
 
                         <div class="member-detail-main">
@@ -19,7 +20,11 @@
                                 {{ $member->is_active ? 'Aktif' : 'Nonaktif' }}
                             </div>
 
-                            <h1>{{ $member->name }}</h1>
+                            <h1>
+                                {{ $member->name }}
+                                <a href="{{ $member->linkedin }}" target="_blank"> <i
+                                        class="fa-brands fa-linkedin fa-sm"></i></a>
+                            </h1>
                             <h3>{{ $member->team->name ?? 'Anggota KOMINFIK' }}</h3>
 
                             <p class="member-detail-desc">
