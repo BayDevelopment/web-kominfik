@@ -32,6 +32,37 @@
                         @if ($type === 'member')
 
                             <div class="form-group">
+                                <label>Avatar</label>
+
+                                <input type="file" wire:model="avatar" accept="image/png, image/jpeg">
+
+                                <!-- 🔍 ketentuan -->
+                                <small style="display:block; margin-top:5px; color:#666;">
+                                    • Wajib upload foto<br>
+                                    • Format: JPG, JPEG, PNG<br>
+                                    • Maksimal ukuran: 1MB
+                                </small>
+
+                                <!-- ⏳ loading -->
+                                <div wire:loading wire:target="avatar" style="font-size:12px; color:orange;">
+                                    Uploading...
+                                </div>
+
+                                <!-- ❌ error -->
+                                @error('avatar')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+
+                                <!-- 👁️ preview -->
+                                @if ($avatar)
+                                    <div style="margin-top:10px;">
+                                        <img src="{{ $avatar->temporaryUrl() }}" width="120"
+                                            style="border-radius:8px;">
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
                                 <label>Nama Lengkap</label>
                                 <input type="text" wire:model.defer="name" placeholder="Masukkan nama lengkap">
                                 @error('name')

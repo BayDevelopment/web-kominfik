@@ -188,6 +188,8 @@
 
     <section id="project">
         <div class="container fade-in-scroll">
+
+            <!-- HEADER -->
             <div class="section-header">
                 <span class="tag">Project Website</span>
                 <h2>Karya Website yang Dibangun Oleh Anggota KOMINFIK</h2>
@@ -197,16 +199,21 @@
                 </p>
             </div>
 
+            <!-- GRID -->
             <div class="project-grid">
                 @forelse ($projects as $item)
                     <div class="project-card">
+
                         <div class="project-image">
                             <img src="{{ $item->image_url ?? asset('assets/default-project.webp') }}"
                                 alt="{{ $item->name }}">
-                            <span class="project-category">{{ $item->category ?? 'Project' }}</span>
+                            <span class="project-category">
+                                {{ $item->category ?? 'Project' }}
+                            </span>
                         </div>
 
                         <div class="project-content">
+
                             <div class="project-meta-top">
                                 <span class="project-time">
                                     Upload •
@@ -244,8 +251,10 @@
                                     </a>
                                 @endif
                             </div>
+
                         </div>
                     </div>
+
                 @empty
                     <div style="grid-column: 1/-1; text-align:center; padding:40px;">
                         <h3>Tidak ada project yang ditampilkan</h3>
@@ -253,6 +262,16 @@
                     </div>
                 @endforelse
             </div>
+
+            <!-- 🔥 CTA (DI LUAR LOOP) -->
+            @if ($projects->count())
+                <div style="text-align:center; margin-top:40px;">
+                    <a href="{{ route('projects.all') }}" class="btn btn-primary" style="padding:12px 28px;">
+                        Lihat Semua Project
+                    </a>
+                </div>
+            @endif
+
         </div>
     </section>
 

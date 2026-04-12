@@ -30,6 +30,11 @@ class ProjectModel extends Model
         'is_published' => 'boolean',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected static function booted(): void
     {
         static::creating(function (ProjectModel $project) {

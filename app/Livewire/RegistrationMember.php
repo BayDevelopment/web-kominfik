@@ -11,14 +11,18 @@ use Illuminate\Support\Facades\Mail; // ✅ mail
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class RegistrationMember extends Component
 {
+    use WithFileUploads;
+
     public $type;
 
     // MEMBER
     public $name = '';
+    public $avatar;
     public $intake_year = '';
     public $team_id = '';
     public $email = '';
@@ -47,7 +51,7 @@ class RegistrationMember extends Component
     // ===== MEMBER =====
     public function submitMember()
     {
-        // 🔐 RATE LIMIT (5x / 5 menit)
+        // 🔐 RATE LIMIT
         $key = 'register-member-' . md5(request()->ip() . $this->email);
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
@@ -58,8 +62,6 @@ class RegistrationMember extends Component
 
         RateLimiter::hit($key, 300);
 
-        // =========================
-
         if (Team::count() === 0) {
             $this->addError('team_id', 'Data divisi belum tersedia, silakan hubungi admin.');
             return;
@@ -67,6 +69,14 @@ class RegistrationMember extends Component
 
         $validated = $this->validate([
             'name' => 'required|string|min:3|max:255',
+
+            'avatar' => [
+                'required',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:1024'
+            ],
+
             'intake_year' => 'required|digits:4',
             'team_id' => 'required|exists:teams,id',
             'email' => 'required|email|max:255|unique:members,email',
@@ -76,15 +86,19 @@ class RegistrationMember extends Component
             'name.min' => 'Nama minimal 3 karakter.',
             'name.max' => 'Nama maksimal 255 karakter.',
 
+            'avatar.required' => 'Avatar wajib diupload.',
+            'avatar.image' => 'Avatar harus berupa gambar.',
+            'avatar.mimes' => 'Avatar harus berformat JPG atau PNG.',
+            'avatar.max' => 'Ukuran avatar maksimal 1MB.',
+
             'intake_year.required' => 'Tahun masuk wajib diisi.',
-            'intake_year.digits' => 'Tahun masuk harus 4 digit (contoh: 2022).',
+            'intake_year.digits' => 'Tahun masuk harus 4 digit.',
 
             'team_id.required' => 'Divisi wajib dipilih.',
-            'team_id.exists' => 'Divisi tidak valid atau tidak ditemukan.',
+            'team_id.exists' => 'Divisi tidak valid.',
 
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
-            'email.max' => 'Email terlalu panjang.',
             'email.unique' => 'Email sudah terdaftar.',
 
             'phone.required' => 'Nomor telepon wajib diisi.',
@@ -92,11 +106,26 @@ class RegistrationMember extends Component
             'phone.max' => 'Nomor telepon maksimal 15 digit.',
         ]);
 
-        // 🔥 Sanitasi
+        // 🔐 HARDENING FILE
+        $file = $this->avatar;
+
+        if (!in_array($file->extension(), ['jpg', 'jpeg', 'png'])) {
+            $this->addError('avatar', 'Format file tidak valid.');
+            return;
+        }
+
+        // 🔥 rename aman
+        $filename = uniqid('avatar_') . '.' . $file->getClientOriginalExtension();
+
+        // simpan
+        $path = $file->storeAs('avatars', $filename, 'public');
+
+        // 🔥 sanitasi
         $validated['name'] = Str::title(trim($validated['name']));
         $validated['email'] = strtolower(trim($validated['email']));
         $validated['phone'] = preg_replace('/[^0-9]/', '', $validated['phone']);
         $validated['is_active'] = false;
+        $validated['avatar'] = $path;
 
         Member::create($validated);
 
@@ -111,7 +140,6 @@ class RegistrationMember extends Component
     // ===== KERJASAMA =====
     public function submitKerjasama()
     {
-        // 🔐 RATE LIMIT (5x / 5 menit)
         $key = 'register-kerjasama-' . md5(request()->ip() . $this->instansi_email);
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
@@ -121,8 +149,6 @@ class RegistrationMember extends Component
         }
 
         RateLimiter::hit($key, 300);
-
-        // =========================
 
         $validated = $this->validate([
             'instansi_nama' => 'required|string|min:3|max:255',
@@ -148,7 +174,7 @@ class RegistrationMember extends Component
             'deskripsi.min' => 'Deskripsi minimal 10 karakter.',
         ]);
 
-        // 🔥 Sanitasi
+        // 🔥 sanitasi
         $validated['instansi_nama'] = Str::title(trim($validated['instansi_nama']));
         $validated['pic_name'] = Str::title(trim($validated['pic_name']));
         $validated['instansi_email'] = strtolower(trim($validated['instansi_email']));
