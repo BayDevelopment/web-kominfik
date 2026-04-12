@@ -205,8 +205,14 @@
                     <div class="project-card">
 
                         <div class="project-image">
-                            <img src="{{ $item->image_url ?? asset('assets/default-project.webp') }}"
-                                alt="{{ $item->name }}">
+                            @php
+                                $isDefault = empty($item->image_url);
+                            @endphp
+
+                            <img src="{{ $item->image_url ?: asset('image/no-img.svg') }}"
+                                onerror="this.onerror=null;this.src='{{ asset('image/no-img.svg') }}';"
+                                alt="{{ $item->name }}" class="project-img {{ $isDefault ? 'default-img' : '' }}">
+
                             <span class="project-category">
                                 {{ $item->category ?? 'Project' }}
                             </span>
@@ -366,6 +372,33 @@
         </div>
     </section>
 
+    <x-slot:styles>
+        <style>
+            /* container image */
+            .project-image {
+                width: 100%;
+                height: 180px;
+                overflow: hidden;
+                border-radius: 14px;
+                position: relative;
+            }
+
+            /* image normal */
+            .project-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            /* 🔥 khusus default image */
+            .default-img {
+                object-fit: contain;
+                padding: 20px;
+                background: #f8fafc;
+            }
+        </style>
+    </x-slot:styles>
     <x-slot:scripts>
         <script>
             document.addEventListener('DOMContentLoaded', function() {

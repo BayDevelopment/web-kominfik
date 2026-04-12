@@ -4,8 +4,10 @@
 
             <h1>{{ $project->name }}</h1>
 
-            <img src="{{ $project->image_url ?? asset('assets/default-project.webp') }}" alt="{{ $project->name }}"
-                style="max-width:100%; margin:20px 0;">
+            <img src="{{ $project->image_url ?: asset('image/no-img.svg') }}"
+                onerror="this.onerror=null;this.src='{{ asset('image/no-img.svg') }}';" alt="{{ $project->name }}"
+                class="project-img">
+
 
             <p>{{ $project->description }}</p>
 
@@ -27,4 +29,19 @@
 
         </div>
     </section>
+
+    <x-slot:styles>
+        <style>
+            .project-img {
+                width: 100%;
+                height: 180px;
+                /* 🔥 kontrol tinggi */
+                object-fit: cover;
+                /* isi penuh (untuk gambar normal) */
+                border-radius: 12px;
+                background: #f1f5f9;
+                /* fallback background */
+            }
+        </style>
+    </x-slot:styles>
 </x-layouts.guest>

@@ -34,32 +34,39 @@
                             <div class="form-group">
                                 <label>Avatar</label>
 
-                                <input type="file" wire:model="avatar" accept="image/png, image/jpeg">
+                                <div class="upload-box">
 
-                                <!-- 🔍 ketentuan -->
-                                <small style="display:block; margin-top:5px; color:#666;">
-                                    • Wajib upload foto<br>
-                                    • Format: JPG, JPEG, PNG<br>
-                                    • Maksimal ukuran: 1MB
-                                </small>
+                                    <!-- input file -->
+                                    <input type="file" wire:model="avatar" id="avatar" hidden>
 
-                                <!-- ⏳ loading -->
-                                <div wire:loading wire:target="avatar" style="font-size:12px; color:orange;">
-                                    Uploading...
+                                    <!-- tombol upload -->
+                                    <label for="avatar" class="upload-label">
+                                        Pilih Foto
+                                    </label>
+
+                                    <!-- info -->
+                                    <p class="upload-info">
+                                        Format: JPG, JPEG, PNG - 1MB
+                                    </p>
+
+                                    <!-- loading (FIX) -->
+                                    @if ($avatar)
+                                        <p wire:loading wire:target="avatar" class="uploading-text">
+                                            Uploading...
+                                        </p>
+                                    @endif
+
+                                    <!-- preview -->
+                                    @if ($avatar)
+                                        <img src="{{ $avatar->temporaryUrl() }}" class="preview-img">
+                                    @endif
+
+                                    <!-- error -->
+                                    @error('avatar')
+                                        <p class="invalid-input">{{ $message }}</p>
+                                    @enderror
+
                                 </div>
-
-                                <!-- ❌ error -->
-                                @error('avatar')
-                                    <p class="invalid-input">{{ $message }}</p>
-                                @enderror
-
-                                <!-- 👁️ preview -->
-                                @if ($avatar)
-                                    <div style="margin-top:10px;">
-                                        <img src="{{ $avatar->temporaryUrl() }}" width="120"
-                                            style="border-radius:8px;">
-                                    </div>
-                                @endif
                             </div>
 
                             <div class="form-group">
@@ -107,6 +114,21 @@
                                 <label>No WhatsApp</label>
                                 <input type="tel" wire:model.defer="phone" placeholder="628xxxx">
                                 @error('phone')
+                                    <p class="invalid-input">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>LinkedIn</label>
+
+                                <input type="url" wire:model.defer="linkedin"
+                                    placeholder="https://linkedin.com/in/username" pattern="https://.*">
+
+                                <small class="input-note">
+                                    Gunakan link profil LinkedIn (https)
+                                </small>
+
+                                @error('linkedin')
                                     <p class="invalid-input">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -389,6 +411,64 @@
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.15);
+        }
+
+        /* ===== UPLOAD BOX ===== */
+        .upload-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* tombol upload */
+        .upload-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* hover */
+        .upload-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* info */
+        .upload-info {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* uploading */
+        .uploading-text {
+            font-size: 13px;
+            color: #f59e0b;
+            font-weight: 500;
+        }
+
+        /* preview */
+        .preview-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* error */
+        .invalid-input {
+            color: #ef4444;
+            font-size: 13px;
         }
     </style>
 </x-slot:styles>

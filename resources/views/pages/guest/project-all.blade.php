@@ -2,27 +2,52 @@
     <section class="projects">
         <div class="container">
 
-            <!-- HEADER -->
-            <div class="projects-header">
-                <h1>Semua Project</h1>
-                <p>Eksplorasi berbagai karya digital yang telah dikembangkan.</p>
+            <!-- HEADER + FILTER -->
+            <div class="projects-top">
+
+                <!-- HEADER -->
+                <div class="projects-header">
+                    <h1>Semua Project</h1>
+                    <p>Eksplorasi berbagai karya digital yang telah dikembangkan.</p>
+                </div>
+
+                <!-- FILTER -->
+                <div class="projects-filter-wrapper">
+                    <form method="GET" class="project-filter">
+
+                        <!-- dropdown -->
+                        <div class="custom-select" id="customSelect">
+
+                            <div class="select-trigger" id="trigger">
+                                {{ request('sort') === 'oldest' ? 'Terlama' : 'Terbaru' }}
+                            </div>
+
+                            <div class="select-options" id="options">
+                                <div data-value="latest" class="{{ request('sort') === 'latest' ? 'active' : '' }}">
+                                    Terbaru
+                                </div>
+                                <div data-value="oldest" class="{{ request('sort') === 'oldest' ? 'active' : '' }}">
+                                    Terlama
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="sort" id="sortInput" value="{{ request('sort', 'latest') }}">
+                        </div>
+
+                        <!-- action -->
+                        <div class="filter-actions">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+
+                            <!-- 🔥 FIX ROUTE -->
+                            <a href="{{ route('projects.all') }}" class="btn btn-reset">Reset</a>
+                        </div>
+
+                    </form>
+                </div>
+
             </div>
 
-            <!-- FILTER -->
-            <form method="GET" class="project-filter">
-
-                <select name="sort">
-                    <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Terbaru</option>
-                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Terlama</option>
-                </select>
-
-                <button type="submit" class="btn btn-primary">Filter</button>
-
-                <!-- 🔥 FIX ROUTE -->
-                <a href="{{ route('projects.all') }}" class="btn btn-reset">Reset</a>
-            </form>
-
-            <!-- 🔥 GRID (HANYA 1, JANGAN DUPLIKAT) -->
+            <!-- GRID -->
             <div class="project-grid" id="project-container">
                 @include('components.project-card', ['projects' => $projects])
             </div>
@@ -37,152 +62,236 @@
 
     <x-slot:styles>
         <style>
-            /* 🔥 GLOBAL FIX (ANTI GESER) */
-            body {
-                overflow-x: hidden;
-            }
-
-            /* 🔥 SECTION */
+            /* ===== SECTION ===== */
             .projects {
                 width: 100%;
-            }
-
-            /* 🔥 CONTAINER */
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-                width: 100%;
+                padding-top: 20px;
             }
 
             /* ===== HEADER ===== */
             .projects-header {
-                margin-bottom: 24px;
+                margin-bottom: 28px;
             }
 
             .projects-header h1 {
-                font-size: 30px;
-                font-weight: 700;
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: var(--text);
             }
 
             .projects-header p {
-                color: #94a3b8;
-                font-size: 14px;
+                color: var(--muted);
+                font-size: 0.95rem;
             }
 
-            /* ===== FILTER ===== */
-            .project-filter {
-                display: flex;
-                gap: 10px;
-                flex-wrap: wrap;
-                margin-bottom: 25px;
+            /* ===== FILTER (CUSTOM DROPDOWN) ===== */
+            .custom-select {
+                position: relative;
+                width: 180px;
             }
 
-            .project-filter select {
-                padding: 10px 14px;
-                border-radius: 10px;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                background: transparent;
-                color: #fff;
-            }
-
-            .btn-reset {
+            .select-trigger {
                 padding: 10px 16px;
-                border-radius: 10px;
-                background: rgba(255, 255, 255, 0.1);
-                text-decoration: none;
+                border-radius: 999px;
+                background: #0c1b31;
                 color: #fff;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                cursor: pointer;
+                transition: 0.25s;
+            }
+
+            .select-trigger:hover {
+                border-color: #4f8cff;
+            }
+
+            .select-options {
+                position: absolute;
+                top: 110%;
+                left: 0;
+                width: 100%;
+                background: #0c1b31;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                display: none;
+                z-index: 100;
+                overflow: hidden;
+            }
+
+            .select-options div {
+                padding: 10px 14px;
+                cursor: pointer;
+            }
+
+            .select-options div:hover {
+                background: #1e3a8a;
+            }
+
+            .select-options .active {
+                background: #2563eb;
+            }
+
+            /* ===== BUTTON RESET ===== */
+            .btn-reset {
+                padding: 10px 18px;
+                border-radius: 999px;
+                background: var(--card);
+                border: 1px solid var(--card-border);
+                color: var(--text);
             }
 
             /* ===== GRID ===== */
             .project-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
                 gap: 24px;
-                width: 100%;
-                align-items: stretch;
             }
 
             /* ===== CARD ===== */
             .project-card {
-                width: 100%;
-                background: #ffffff;
-                border-radius: 16px;
+                background: var(--card);
+                border: 1px solid var(--card-border);
+                border-radius: var(--radius);
                 overflow: hidden;
-                box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-                transition: 0.3s ease;
+                box-shadow: var(--shadow);
+                position: relative;
+                transition: 0.3s;
             }
 
             .project-card:hover {
                 transform: translateY(-6px);
-                box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+            }
+
+            /* 🔥 FIX CLICK */
+            .project-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                pointer-events: none;
+                /* penting */
             }
 
             /* ===== IMAGE ===== */
+            .project-image {
+                height: 200px;
+                overflow: hidden;
+            }
+
             .project-image img {
                 width: 100%;
-                height: 180px;
+                height: 100%;
                 object-fit: cover;
             }
 
-            /* ===== BODY ===== */
-            .project-body {
-                padding: 16px;
+            /* ===== CONTENT ===== */
+            .project-content {
+                padding: 18px;
+                position: relative;
+                z-index: 2;
             }
 
-            .project-body h3 {
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 8px;
+            .project-content h3 {
+                color: var(--text);
+                font-size: 1.1rem;
+                margin-bottom: 6px;
             }
 
-            .project-body p {
-                font-size: 14px;
-                color: #64748b;
+            .project-content p {
+                color: var(--muted);
+                font-size: 0.9rem;
                 margin-bottom: 14px;
+            }
+
+            /* ===== ACTION ===== */
+            .project-actions {
+                position: relative;
+                z-index: 3;
             }
 
             /* ===== LOADER ===== */
             #loading {
                 display: none;
-                /* Default sembunyi */
-                width: 100%;
-                display: flex;
                 justify-content: center;
-                align-items: center;
-                padding: 40px 0;
-                /* Memberi ruang di bawah grid */
-                clear: both;
+                margin-top: 30px;
             }
 
             #loading span {
-                background: rgba(255, 255, 255, 0.05);
-                padding: 10px 24px;
-                border-radius: 50px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: #94a3b8;
-                font-size: 14px;
-                text-align: center;
-                backdrop-filter: blur(4px);
-                display: inline-block;
-                transition: all 0.3s ease;
+                padding: 8px 20px;
+                border-radius: 999px;
+                background: var(--card);
+                border: 1px solid var(--card-border);
+                color: var(--muted);
+            }
+
+            /* tambahan */
+            /* wrapper atas */
+            .projects-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+                margin-bottom: 30px;
+                flex-wrap: wrap;
+            }
+
+            /* filter wrapper */
+            .projects-filter-wrapper {
+                display: flex;
+                align-items: center;
+            }
+
+            /* form */
+            .project-filter {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            /* tombol */
+            .filter-actions {
+                display: flex;
+                gap: 8px;
             }
         </style>
     </x-slot:styles>
 
     <x-slot:scripts>
         <script>
-            let page = 2; // Halaman berikutnya yang akan dimuat
+            let page = 2;
             let loading = false;
             let lastPage = false;
 
-            // Fungsi Load Data
+            const trigger = document.getElementById('trigger');
+            const options = document.getElementById('options');
+            const input = document.getElementById('sortInput');
+            const selectBox = document.getElementById('customSelect');
+
+            // ===== DROPDOWN =====
+            trigger.addEventListener('click', () => {
+                options.style.display = options.style.display === 'block' ? 'none' : 'block';
+            });
+
+            options.querySelectorAll('div').forEach(opt => {
+                opt.addEventListener('click', () => {
+                    trigger.innerText = opt.innerText;
+                    input.value = opt.dataset.value;
+                    options.style.display = 'none';
+                    selectBox.closest('form').submit();
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!selectBox.contains(e.target)) {
+                    options.style.display = 'none';
+                }
+            });
+
+            // ===== INFINITE SCROLL =====
             const loadMoreData = () => {
                 if (loading || lastPage) return;
 
                 loading = true;
                 const loadingEl = document.getElementById('loading');
-
-                // 🔥 Gunakan flex agar justify-center berfungsi
                 loadingEl.style.display = 'flex';
                 loadingEl.innerHTML = "<span>Memuat data...</span>";
 
@@ -196,37 +305,30 @@
                     })
                     .then(res => res.text())
                     .then(data => {
-                        if (data.trim().length === 0) {
+                        if (data.trim() === '') {
                             lastPage = true;
-                            loadingEl.style.display = 'flex';
                             loadingEl.innerHTML = "<span>Semua data sudah dimuat ✨</span>";
                             return;
                         }
 
-                        const container = document.getElementById('project-container');
-                        container.insertAdjacentHTML('beforeend', data);
+                        document.getElementById('project-container')
+                            .insertAdjacentHTML('beforeend', data);
 
                         page++;
                         loading = false;
-                        loadingEl.style.display = 'none'; // Sembunyikan jika masih ada data selanjutnya
+                        loadingEl.style.display = 'none';
                     })
-                    .catch(err => {
-                        console.error("Error:", err);
+                    .catch(() => {
                         loading = false;
                         loadingEl.style.display = 'none';
                     });
             };
 
-            // Scroll Event Listener
             window.addEventListener('scroll', () => {
-                // Deteksi jika user sudah mendekati bawah halaman (offset 100px)
                 if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 100) {
                     loadMoreData();
                 }
             });
-
-            // Debugging filter: Jika user ganti filter, pastikan reset variabel page
-            // (Ini otomatis terjadi karena form submit akan reload page ke hal 1)
         </script>
     </x-slot:scripts>
 
