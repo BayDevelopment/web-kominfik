@@ -224,7 +224,9 @@
             }
 
             /* tambahan */
-            /* wrapper atas */
+            /* ===== RESPONSIVE IMPROVEMENTS ===== */
+
+            /* container atas */
             .projects-top {
                 display: flex;
                 justify-content: space-between;
@@ -234,23 +236,111 @@
                 flex-wrap: wrap;
             }
 
+            /* header biar fleksibel */
+            .projects-header {
+                flex: 1;
+                min-width: 250px;
+            }
+
             /* filter wrapper */
             .projects-filter-wrapper {
                 display: flex;
                 align-items: center;
             }
 
-            /* form */
+            /* form filter */
             .project-filter {
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                flex-wrap: wrap;
+                /* penting */
+            }
+
+            /* dropdown responsive */
+            .custom-select {
+                position: relative;
+                width: 100%;
+                max-width: 180px;
+            }
+
+            /* trigger */
+            .select-trigger {
+                width: 100%;
+                text-align: center;
             }
 
             /* tombol */
             .filter-actions {
                 display: flex;
                 gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            /* tombol full di mobile */
+            .filter-actions .btn {
+                white-space: nowrap;
+            }
+
+            /* ===== MOBILE ===== */
+            @media (max-width: 768px) {
+
+                .projects-top {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .projects-filter-wrapper {
+                    width: 100%;
+                }
+
+                .project-filter {
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .custom-select {
+                    max-width: 100%;
+                }
+
+                .filter-actions {
+                    width: 100%;
+                }
+
+                .filter-actions .btn {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .projects-header h1 {
+                    font-size: 1.6rem;
+                }
+
+                .projects-header p {
+                    font-size: 0.85rem;
+                }
+            }
+
+            /* ===== SMALL MOBILE ===== */
+            @media (max-width: 480px) {
+
+                .projects {
+                    padding-top: 10px;
+                }
+
+                .project-grid {
+                    gap: 16px;
+                }
+
+                .project-image {
+                    height: 180px;
+                }
+
+                .select-trigger {
+                    padding: 10px;
+                    font-size: 0.9rem;
+                }
             }
         </style>
     </x-slot:styles>
