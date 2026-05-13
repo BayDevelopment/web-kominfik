@@ -88,7 +88,7 @@ class RegistrationMember extends Component
 
             // 🔥 LINKEDIN SECURE
             'linkedin' => [
-                'nullable',
+                'required',
                 'url',
                 'regex:/^https:\/\/(www\.)?linkedin\.com\/.+$/'
             ],
@@ -111,6 +111,7 @@ class RegistrationMember extends Component
             'phone.required' => 'Nomor wajib diisi.',
             'phone.regex' => 'Nomor harus 10-15 digit angka.',
 
+            'linkedin.required' => 'Link wajib diisi.',
             'linkedin.url' => 'Link harus URL valid.',
             'linkedin.regex' => 'Gunakan link LinkedIn valid (https://linkedin.com/...)',
         ]);

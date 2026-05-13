@@ -7,17 +7,14 @@
         @endphp
 
         <div class="registration-header text-center">
-
             <h1>
                 {{ $isMember ? 'Pendaftaran Member' : 'Form Kerjasama' }}
             </h1>
-
             <p style="font-size:14px; color:#666; margin-bottom:16px;">
                 {{ $isMember
                     ? 'Silakan isi form berikut untuk mendaftar sebagai member. Data Anda akan kami verifikasi terlebih dahulu sebelum disetujui.'
                     : 'Silakan isi form berikut untuk mengajukan kerjasama. Tim kami akan meninjau pengajuan Anda dan menghubungi Anda kembali melalui email.' }}
             </p>
-
         </div>
 
         <div class="registration-wrapper">
@@ -35,39 +32,88 @@
                                 <label>Avatar</label>
 
                                 <div class="upload-box">
+                                    <input type="file" id="avatar" wire:model="avatar" accept="image/*" hidden
+                                        x-on:change="handleAvatarChange(event)">
 
-                                    <!-- input file -->
-                                    <input type="file" wire:model="avatar" id="avatar" hidden>
+                                    {{-- wire:ignore = Livewire TIDAK akan re-render div ini --}}
+                                    <div wire:ignore>
 
-                                    <!-- tombol upload -->
-                                    <label for="avatar" class="upload-label">
-                                        Pilih Foto
-                                    </label>
+                                        {{-- State 1: Belum ada foto --}}
+                                        <div id="avatar-empty">
+                                            <label for="avatar" class="upload-label mt-6">Pilih Foto</label>
+                                            <p class="upload-info">Format: JPG, JPEG, PNG - Maks 1MB</p>
+                                        </div>
 
-                                    <!-- info -->
-                                    <p class="upload-info">
-                                        Format: JPG, JPEG, PNG - 1MB
-                                    </p>
+                                        {{-- State 2: Loading --}}
+                                        <div id="avatar-loading" style="display:none;" class="uploading-text">
+                                            ⏳ Mengupload foto...
+                                        </div>
 
-                                    <!-- loading (FIX) -->
-                                    @if ($avatar)
-                                        <p wire:loading wire:target="avatar" class="uploading-text">
-                                            Uploading...
-                                        </p>
-                                    @endif
+                                        {{-- State 3: Preview --}}
+                                        <div id="avatar-preview" style="display:none;">
+                                            <img id="avatar-img" src="" class="preview-img" alt="Preview">
+                                            <button type="button" onclick="removeAvatar()"
+                                                style="display:block; margin-top:8px; color:#ef4444; font-size:12px; background:none; border:none; cursor:pointer; padding:0;">
+                                                ✕ Hapus & Ganti
+                                            </button>
+                                        </div>
 
-                                    <!-- preview -->
-                                    @if ($avatar)
-                                        <img src="{{ $avatar->temporaryUrl() }}" class="preview-img">
-                                    @endif
+                                    </div>
 
-                                    <!-- error -->
                                     @error('avatar')
                                         <p class="invalid-input">{{ $message }}</p>
                                     @enderror
-
                                 </div>
                             </div>
+
+                            <script>
+                                let avatarPreviewSrc = null;
+
+                                function handleAvatarChange(event) {
+                                    const file = event.target.files[0];
+                                    if (!file) return;
+
+                                    document.getElementById('avatar-empty').style.display = 'none';
+                                    document.getElementById('avatar-loading').style.display = 'block';
+                                    document.getElementById('avatar-preview').style.display = 'none';
+
+                                    const reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        avatarPreviewSrc = e.target.result;
+                                        document.getElementById('avatar-img').src = avatarPreviewSrc;
+                                        document.getElementById('avatar-loading').style.display = 'none';
+                                        document.getElementById('avatar-preview').style.display = 'block';
+                                    };
+                                    reader.readAsDataURL(file);
+
+                                    // ✅ Trigger Livewire upload secara manual
+                                    const livewireInput = document.createElement('input');
+                                    livewireInput.type = 'file';
+
+                                    // Pakai @this untuk set file ke Livewire property
+                                    @this.upload('avatar', file,
+                                        (uploadedFilename) => {
+                                            // sukses upload ke Livewire
+                                            console.log('Livewire upload done:', uploadedFilename);
+                                        },
+                                        (error) => {
+                                            console.error('Upload error:', error);
+                                        },
+                                        (event) => {
+                                            // progress
+                                        }
+                                    );
+                                }
+
+                                function removeAvatar() {
+                                    avatarPreviewSrc = null;
+                                    document.getElementById('avatar').value = '';
+                                    document.getElementById('avatar-preview').style.display = 'none';
+                                    document.getElementById('avatar-loading').style.display = 'none';
+                                    document.getElementById('avatar-empty').style.display = 'block';
+                                    @this.set('avatar', null);
+                                }
+                            </script>
 
                             <div class="form-group">
                                 <label>Nama Lengkap</label>
@@ -120,14 +166,9 @@
 
                             <div class="form-group">
                                 <label>LinkedIn</label>
-
                                 <input type="url" wire:model.defer="linkedin"
-                                    placeholder="https://linkedin.com/in/username" pattern="https://.*">
-
-                                <small class="input-note">
-                                    Gunakan link profil LinkedIn (https)
-                                </small>
-
+                                    placeholder="https://linkedin.com/in/username" pattern="https://.*" required>
+                                <small class="input-note">Gunakan link profil LinkedIn (https)</small>
                                 @error('linkedin')
                                     <p class="invalid-input">{{ $message }}</p>
                                 @enderror
@@ -194,15 +235,15 @@
 
                         <button type="submit" class="btn btn-primary btn-block" wire:loading.attr="disabled"
                             wire:target="{{ $type === 'member' ? 'submitMember' : 'submitKerjasama' }}">
-
-                            <span wire:loading.remove>
+                            <span wire:loading.remove
+                                wire:target="{{ $type === 'member' ? 'submitMember' : 'submitKerjasama' }}">
                                 {{ $type === 'member' ? 'Daftar Sekarang' : 'Kirim Pengajuan' }}
                             </span>
-
-                            <span wire:loading style="display:none;">
+                            <span wire:loading
+                                wire:target="{{ $type === 'member' ? 'submitMember' : 'submitKerjasama' }}"
+                                style="display:none;">
                                 Loading...
                             </span>
-
                         </button>
 
                     </div>
@@ -307,11 +348,6 @@
             color: #fff;
         }
 
-        .form-footer {
-            text-align: center;
-            margin-top: 12px;
-        }
-
         .btn-block {
             width: 100%;
             justify-content: center;
@@ -320,29 +356,124 @@
             border-radius: 18px !important;
         }
 
-        .form-note {
-            margin-top: 20px;
-            font-size: 0.88rem;
-            color: var(--muted);
-        }
-
         .invalid-input {
-            color: red;
-            font-size: small;
+            color: #ef4444;
+            font-size: 13px;
             font-weight: bold;
         }
 
+        textarea {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 20px;
+            color: #fff;
+            font-size: 1rem;
+            resize: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.15);
+        }
+
+        /* ===== UPLOAD BOX ===== */
+        .upload-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px 14px;
+            margin: 8px 0;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
+        }
+
+        .upload-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .upload-info {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .uploading-text {
+            font-size: 13px;
+            color: #f59e0b;
+            font-weight: 500;
+        }
+
+        .preview-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
+            .registration-page {
+                padding: 100px 0 60px;
             }
 
             .registration-card {
                 padding: 32px 24px;
             }
 
-            .registration-page {
-                padding: 100px 0 60px;
+            .registration-header h1 {
+                font-size: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group[style*="grid-column: span 2"] {
+                grid-column: span 1 !important;
+            }
+
+            .btn-block {
+                padding: 16px !important;
+                font-size: 1rem !important;
+            }
+
+            .preview-img {
+                width: 64px;
+                height: 64px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .registration-card {
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+
+            .form-group input,
+            .form-group select,
+            textarea {
+                padding: 12px 16px;
+                font-size: 0.95rem;
             }
         }
 
@@ -394,81 +525,6 @@
             .registration-type-wrapper {
                 grid-template-columns: 1fr;
             }
-        }
-
-        textarea {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 14px 20px;
-            color: #fff;
-            font-size: 1rem;
-            resize: none;
-        }
-
-        textarea:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.15);
-        }
-
-        /* ===== UPLOAD BOX ===== */
-        .upload-box {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* tombol upload */
-        .upload-label {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* hover */
-        .upload-label:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
-        }
-
-        /* info */
-        .upload-info {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
-
-        /* uploading */
-        .uploading-text {
-            font-size: 13px;
-            color: #f59e0b;
-            font-weight: 500;
-        }
-
-        /* preview */
-        .preview-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-top: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* error */
-        .invalid-input {
-            color: #ef4444;
-            font-size: 13px;
         }
     </style>
 </x-slot:styles>
